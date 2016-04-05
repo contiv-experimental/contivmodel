@@ -676,6 +676,71 @@ var ServiceInstanceModalView = React.createClass({
 
 module.exports.ServiceInstanceSummaryView = ServiceInstanceSummaryView
 module.exports.ServiceInstanceModalView = ServiceInstanceModalView
+var ServiceLBSummaryView = React.createClass({
+  	render: function() {
+		var self = this
+
+		// Walk thru all objects
+		var serviceLBListView = self.props.serviceLBs.map(function(serviceLB){
+			return (
+				<ModalTrigger modal={<ServiceLBModalView serviceLB={ serviceLB }/>}>
+					<tr key={ serviceLB.key } className="info">
+						
+						      
+					</tr>
+				</ModalTrigger>
+			);
+		});
+
+		return (
+        <div>
+			<Table hover>
+				<thead>
+					<tr>
+					
+					      
+					</tr>
+				</thead>
+				<tbody>
+            		{ serviceLBListView }
+				</tbody>
+			</Table>
+        </div>
+    	);
+	}
+});
+
+var ServiceLBModalView = React.createClass({
+	render() {
+		var obj = this.props.serviceLB
+	    return (
+	      <Modal {...this.props} bsStyle='primary' bsSize='large' title='ServiceLB' animation={false}>
+	        <div className='modal-body' style={ {margin: '5%',} }>
+			
+			
+				<Input type='text' label='Service ip' ref='ipAddress' defaultValue={obj.ipAddress} placeholder='Service ip' />
+			
+				<Input type='text' label='labels key value pair' ref='labels' defaultValue={obj.labels} placeholder='labels key value pair' />
+			
+				<Input type='text' label='Service subnet' ref='network' defaultValue={obj.network} placeholder='Service subnet' />
+			
+				<Input type='text' label='service provider port' ref='ports' defaultValue={obj.ports} placeholder='service provider port' />
+			
+				<Input type='text' label='service name' ref='serviceName' defaultValue={obj.serviceName} placeholder='service name' />
+			
+				<Input type='text' label='Tenant Name' ref='tenantName' defaultValue={obj.tenantName} placeholder='Tenant Name' />
+			
+			</div>
+	        <div className='modal-footer'>
+				<Button onClick={this.props.onRequestHide}>Close</Button>
+	        </div>
+	      </Modal>
+	    );
+  	}
+});
+
+module.exports.ServiceLBSummaryView = ServiceLBSummaryView
+module.exports.ServiceLBModalView = ServiceLBModalView
 var TenantSummaryView = React.createClass({
   	render: function() {
 		var self = this
