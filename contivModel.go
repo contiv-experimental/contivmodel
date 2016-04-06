@@ -93,6 +93,8 @@ type Network struct {
 
 	Encap       string `json:"encap,omitempty"`       // Encapsulation
 	Gateway     string `json:"gateway,omitempty"`     // Gateway
+	InfraNw     bool   `json:"infraNw,omitempty"`     // Infra Network
+	InfraNwPort string `json:"infraNwPort,omitempty"` // Infra Network Port Name
 	NetworkName string `json:"networkName,omitempty"` // Network name
 	PktTag      int    `json:"pktTag,omitempty"`      // Vlan/Vxlan Tag
 	Subnet      string `json:"subnet,omitempty"`      // Subnet
@@ -1867,6 +1869,10 @@ func ValidateNetwork(obj *Network) error {
 	gatewayMatch := regexp.MustCompile("^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})?$")
 	if gatewayMatch.MatchString(obj.Gateway) == false {
 		return errors.New("gateway string invalid format")
+	}
+
+	if len(obj.InfraNwPort) > 12 {
+		return errors.New("infraNwPort string too long")
 	}
 
 	if len(obj.NetworkName) > 64 {

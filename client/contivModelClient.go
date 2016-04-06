@@ -220,6 +220,8 @@ type Network struct {
 
 	Encap       string `json:"encap,omitempty"`       // Encapsulation
 	Gateway     string `json:"gateway,omitempty"`     // Gateway
+	InfraNw     bool   `json:"infraNw,omitempty"`     // Infra Network
+	InfraNwPort string `json:"infraNwPort,omitempty"` // Infra Network Port Name
 	NetworkName string `json:"networkName,omitempty"` // Network name
 	PktTag      int    `json:"pktTag,omitempty"`      // Vlan/Vxlan Tag
 	Subnet      string `json:"subnet,omitempty"`      // Subnet

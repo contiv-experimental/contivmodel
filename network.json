@@ -17,6 +17,16 @@
 					"title": "Tenant Name",
 					"length": 64
 				},
+				"infraNw": {
+					"type": "bool",
+					"title": "Infra Network",
+					"showSummary": true
+				},
+				"infraNwPort": {
+					"type": "string",
+					"title": "Infra Network Port Name",
+					"length": 12
+				},
 				"encap": {
 					"type": "string",
 					"format": "^(vlan|vxlan)$",
