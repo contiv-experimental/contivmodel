@@ -93,9 +93,8 @@ type Network struct {
 
 	Encap       string `json:"encap,omitempty"`       // Encapsulation
 	Gateway     string `json:"gateway,omitempty"`     // Gateway
-	InfraNw     bool   `json:"infraNw,omitempty"`     // Infra Network
-	InfraNwPort string `json:"infraNwPort,omitempty"` // Infra Network Port Name
 	NetworkName string `json:"networkName,omitempty"` // Network name
+	NwType      string `json:"nwType,omitempty"`      // Network Type
 	PktTag      int    `json:"pktTag,omitempty"`      // Vlan/Vxlan Tag
 	Subnet      string `json:"subnet,omitempty"`      // Subnet
 	TenantName  string `json:"tenantName,omitempty"`  // Tenant Name
@@ -1871,12 +1870,13 @@ func ValidateNetwork(obj *Network) error {
 		return errors.New("gateway string invalid format")
 	}
 
-	if len(obj.InfraNwPort) > 12 {
-		return errors.New("infraNwPort string too long")
-	}
-
 	if len(obj.NetworkName) > 64 {
 		return errors.New("networkName string too long")
+	}
+
+	nwTypeMatch := regexp.MustCompile("^(infra|data)$")
+	if nwTypeMatch.MatchString(obj.NwType) == false {
+		return errors.New("nwType string invalid format")
 	}
 
 	subnetMatch := regexp.MustCompile("^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})(\\-(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]))?/(3[0-1]|2[0-9]|1[0-9]|[1-9])$")
