@@ -19,7 +19,7 @@
 				},
 				"nwType": {
 					"type": "string",
-					"format": "^infra$|^data|^$",
+					"format": "^infra$|^data$|^$",
 					"title": "Network Type",
 					"showSummary": true
 				},
