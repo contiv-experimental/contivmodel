@@ -11,10 +11,14 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/contiv/objdb/modeldb"
-
 	log "github.com/Sirupsen/logrus"
 )
+
+// Link is a one way relattion between two objects
+type Link struct {
+	ObjType string `json:"type,omitempty"`
+	ObjKey  string `json:"key,omitempty"`
+}
 
 func httpGet(url string, jdata interface{}) error {
 
@@ -157,12 +161,12 @@ type AppProfile struct {
 }
 
 type AppProfileLinkSets struct {
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
+	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
 }
 
 type AppProfileLinks struct {
-	Network modeldb.Link `json:"Network,omitempty"`
-	Tenant  modeldb.Link `json:"Tenant,omitempty"`
+	Network Link `json:"Network,omitempty"`
+	Tenant  Link `json:"Tenant,omitempty"`
 }
 
 type EndpointGroup struct {
@@ -181,14 +185,14 @@ type EndpointGroup struct {
 }
 
 type EndpointGroupLinkSets struct {
-	Policies map[string]modeldb.Link `json:"Policies,omitempty"`
-	Services map[string]modeldb.Link `json:"Services,omitempty"`
+	Policies map[string]Link `json:"Policies,omitempty"`
+	Services map[string]Link `json:"Services,omitempty"`
 }
 
 type EndpointGroupLinks struct {
-	AppProfile modeldb.Link `json:"AppProfile,omitempty"`
-	Network    modeldb.Link `json:"Network,omitempty"`
-	Tenant     modeldb.Link `json:"Tenant,omitempty"`
+	AppProfile Link `json:"AppProfile,omitempty"`
+	Network    Link `json:"Network,omitempty"`
+	Tenant     Link `json:"Tenant,omitempty"`
 }
 
 type Global struct {
@@ -232,13 +236,13 @@ type Network struct {
 }
 
 type NetworkLinkSets struct {
-	AppProfiles    map[string]modeldb.Link `json:"AppProfiles,omitempty"`
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Services       map[string]modeldb.Link `json:"Services,omitempty"`
+	AppProfiles    map[string]Link `json:"AppProfiles,omitempty"`
+	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
+	Services       map[string]Link `json:"Services,omitempty"`
 }
 
 type NetworkLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
+	Tenant Link `json:"Tenant,omitempty"`
 }
 
 type Policy struct {
@@ -254,12 +258,12 @@ type Policy struct {
 }
 
 type PolicyLinkSets struct {
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Rules          map[string]modeldb.Link `json:"Rules,omitempty"`
+	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
+	Rules          map[string]Link `json:"Rules,omitempty"`
 }
 
 type PolicyLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
+	Tenant Link `json:"Tenant,omitempty"`
 }
 
 type Rule struct {
@@ -286,7 +290,7 @@ type Rule struct {
 }
 
 type RuleLinkSets struct {
-	Policies map[string]modeldb.Link `json:"Policies,omitempty"`
+	Policies map[string]Link `json:"Policies,omitempty"`
 }
 
 type Service struct {
@@ -312,14 +316,14 @@ type Service struct {
 }
 
 type ServiceLinkSets struct {
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Instances      map[string]modeldb.Link `json:"Instances,omitempty"`
-	Networks       map[string]modeldb.Link `json:"Networks,omitempty"`
+	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
+	Instances      map[string]Link `json:"Instances,omitempty"`
+	Networks       map[string]Link `json:"Networks,omitempty"`
 }
 
 type ServiceLinks struct {
-	App           modeldb.Link `json:"App,omitempty"`
-	VolumeProfile modeldb.Link `json:"VolumeProfile,omitempty"`
+	App           Link `json:"App,omitempty"`
+	VolumeProfile Link `json:"VolumeProfile,omitempty"`
 }
 
 type ServiceInstance struct {
@@ -338,11 +342,11 @@ type ServiceInstance struct {
 }
 
 type ServiceInstanceLinkSets struct {
-	Volumes map[string]modeldb.Link `json:"Volumes,omitempty"`
+	Volumes map[string]Link `json:"Volumes,omitempty"`
 }
 
 type ServiceInstanceLinks struct {
-	Service modeldb.Link `json:"Service,omitempty"`
+	Service Link `json:"Service,omitempty"`
 }
 
 type ServiceLB struct {
@@ -370,12 +374,12 @@ type Tenant struct {
 }
 
 type TenantLinkSets struct {
-	AppProfiles    map[string]modeldb.Link `json:"AppProfiles,omitempty"`
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Networks       map[string]modeldb.Link `json:"Networks,omitempty"`
-	Policies       map[string]modeldb.Link `json:"Policies,omitempty"`
-	VolumeProfiles map[string]modeldb.Link `json:"VolumeProfiles,omitempty"`
-	Volumes        map[string]modeldb.Link `json:"Volumes,omitempty"`
+	AppProfiles    map[string]Link `json:"AppProfiles,omitempty"`
+	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
+	Networks       map[string]Link `json:"Networks,omitempty"`
+	Policies       map[string]Link `json:"Policies,omitempty"`
+	VolumeProfiles map[string]Link `json:"VolumeProfiles,omitempty"`
+	Volumes        map[string]Link `json:"Volumes,omitempty"`
 }
 
 type Volume struct {
@@ -395,11 +399,11 @@ type Volume struct {
 }
 
 type VolumeLinkSets struct {
-	ServiceInstances map[string]modeldb.Link `json:"ServiceInstances,omitempty"`
+	ServiceInstances map[string]Link `json:"ServiceInstances,omitempty"`
 }
 
 type VolumeLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
+	Tenant Link `json:"Tenant,omitempty"`
 }
 
 type VolumeProfile struct {
@@ -419,11 +423,11 @@ type VolumeProfile struct {
 }
 
 type VolumeProfileLinkSets struct {
-	Services map[string]modeldb.Link `json:"Services,omitempty"`
+	Services map[string]Link `json:"Services,omitempty"`
 }
 
 type VolumeProfileLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
+	Tenant Link `json:"Tenant,omitempty"`
 }
 
 // AppProfilePost posts the appProfile object
