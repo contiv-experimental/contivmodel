@@ -1872,6 +1872,16 @@ func ValidateNetwork(obj *Network) error {
 		return errors.New("gateway string invalid format")
 	}
 
+	ipv6GatewayMatch := regexp.MustCompile("^(((([0-9]|[a-f]|[A-F]){1,4})(\\:(([0-9]|[a-f]|[A-F]){1,4})){7})|((([0-9]|[a-f]|[A-F]){0,4})\\:\\:(([0-9]|[a-f]|[A-F]){1,4}){0,6})|((([0-9]|[a-f]|[A-F]){1,4}){0,6}\\:\\:(([0-9]|[a-f]|[A-F]){1,4}){1,6}))?$")
+	if ipv6GatewayMatch.MatchString(obj.Ipv6Gateway) == false {
+		return errors.New("ipv6Gateway string invalid format")
+	}
+
+	ipv6SubnetMatch := regexp.MustCompile("^(((([0-9]|[a-f]|[A-F]){1,4})(\\:(([0-9]|[a-f]|[A-F]){1,4})){7})|((([0-9]|[a-f]|[A-F]){0,4})\\:\\:(([0-9]|[a-f]|[A-F]){1,4}){0,6})|((([0-9]|[a-f]|[A-F]){1,4}){0,6}\\:\\:(([0-9]|[a-f]|[A-F]){1,4}){1,6}))?/(1[0-2][0-7]|[1-9][0-9]|[1-9])$")
+	if ipv6SubnetMatch.MatchString(obj.Ipv6Subnet) == false {
+		return errors.New("ipv6Subnet string invalid format")
+	}
+
 	if len(obj.NetworkName) > 64 {
 		return errors.New("networkName string too long")
 	}
