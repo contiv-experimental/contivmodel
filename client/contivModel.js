@@ -720,11 +720,11 @@ var ServiceLBModalView = React.createClass({
 			
 				<Input type='text' label='Service ip' ref='ipAddress' defaultValue={obj.ipAddress} placeholder='Service ip' />
 			
-				<Input type='text' label='labels key value pair' ref='labels' defaultValue={obj.labels} placeholder='labels key value pair' />
-			
 				<Input type='text' label='Service subnet' ref='network' defaultValue={obj.network} placeholder='Service subnet' />
 			
 				<Input type='text' label='service provider port' ref='ports' defaultValue={obj.ports} placeholder='service provider port' />
+			
+				<Input type='text' label='labels key value pair' ref='selectors' defaultValue={obj.selectors} placeholder='labels key value pair' />
 			
 				<Input type='text' label='service name' ref='serviceName' defaultValue={obj.serviceName} placeholder='service name' />
 			

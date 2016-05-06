@@ -107,6 +107,7 @@ type Network struct {
 type NetworkLinkSets struct {
 	AppProfiles    map[string]modeldb.Link `json:"AppProfiles,omitempty"`
 	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
+	Servicelbs     map[string]modeldb.Link `json:"Servicelbs,omitempty"`
 	Services       map[string]modeldb.Link `json:"Services,omitempty"`
 }
 
@@ -223,9 +224,9 @@ type ServiceLB struct {
 	Key string `json:"key,omitempty"`
 
 	IpAddress   string   `json:"ipAddress,omitempty"` // Service ip
-	Labels      []string `json:"labels,omitempty"`
-	Network     string   `json:"network,omitempty"` // Service subnet
+	Network     string   `json:"network,omitempty"`   // Service subnet
 	Ports       []string `json:"ports,omitempty"`
+	Selectors   []string `json:"selectors,omitempty"`
 	ServiceName string   `json:"serviceName,omitempty"` // service name
 	TenantName  string   `json:"tenantName,omitempty"`  // Tenant Name
 
@@ -247,6 +248,7 @@ type TenantLinkSets struct {
 	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
 	Networks       map[string]modeldb.Link `json:"Networks,omitempty"`
 	Policies       map[string]modeldb.Link `json:"Policies,omitempty"`
+	Servicelbs     map[string]modeldb.Link `json:"Servicelbs,omitempty"`
 	VolumeProfiles map[string]modeldb.Link `json:"VolumeProfiles,omitempty"`
 	Volumes        map[string]modeldb.Link `json:"Volumes,omitempty"`
 }

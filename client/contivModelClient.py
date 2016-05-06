@@ -406,9 +406,9 @@ class objmodelClient:
 
 	    jdata = json.dumps({ 
 			"ipAddress": obj.ipAddress, 
-			"labels": obj.labels, 
 			"network": obj.network, 
 			"ports": obj.ports, 
+			"selectors": obj.selectors, 
 			"serviceName": obj.serviceName, 
 			"tenantName": obj.tenantName, 
 	    })
