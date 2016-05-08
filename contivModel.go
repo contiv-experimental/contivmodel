@@ -224,12 +224,18 @@ type ServiceLB struct {
 	Key string `json:"key,omitempty"`
 
 	IpAddress   string   `json:"ipAddress,omitempty"` // Service ip
-	Network     string   `json:"network,omitempty"`   // Service subnet
+	Network     string   `json:"network,omitempty"`   // Service network name
 	Ports       []string `json:"ports,omitempty"`
 	Selectors   []string `json:"selectors,omitempty"`
 	ServiceName string   `json:"serviceName,omitempty"` // service name
 	TenantName  string   `json:"tenantName,omitempty"`  // Tenant Name
 
+	Links ServiceLBLinks `json:"links,omitempty"`
+}
+
+type ServiceLBLinks struct {
+	Network modeldb.Link `json:"Network,omitempty"`
+	Tenant  modeldb.Link `json:"Tenant,omitempty"`
 }
 
 type Tenant struct {
@@ -3189,7 +3195,7 @@ func ValidateServiceLB(obj *ServiceLB) error {
 		return errors.New("ipAddress string too long")
 	}
 
-	if len(obj.Network) > 15 {
+	if len(obj.Network) > 64 {
 		return errors.New("network string too long")
 	}
 

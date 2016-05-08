@@ -19,8 +19,8 @@
 
                                 "network": {
                                              "type": "string",
-                                             "title": "Service subnet",
-                                             "length": 15
+                                             "title": "Service network name",
+                                             "length": 64 
                                 },
                                 "ipAddress":{
                                             "type":"string",
@@ -39,6 +39,14 @@
                                             "length": 32,
                                             "items" : "string"
                                 }
+                 },
+		 "links": {
+                   "tenant": {
+                     "ref": "tenant"
+                   },
+                    "network": {
+                      "ref": "network"
+                   }
                  }
         }]
 }
