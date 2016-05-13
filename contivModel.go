@@ -1877,7 +1877,7 @@ func ValidateNetwork(obj *Network) error {
 		return errors.New("ipv6Gateway string invalid format")
 	}
 
-	ipv6SubnetMatch := regexp.MustCompile("^((((([0-9]|[a-f]|[A-F]){1,4})((\\:([0-9]|[a-f]|[A-F]){1,4}){7}))|(((([0-9]|[a-f]|[A-F]){1,4}\\:){0,6}|\\:)((\\:([0-9]|[a-f]|[A-F]){1,4}){0,6}|\\:)))/(1[0-2][0-7]|[1-9][0-9]|[1-9]))$")
+	ipv6SubnetMatch := regexp.MustCompile("^((((([0-9]|[a-f]|[A-F]){1,4})((\\:([0-9]|[a-f]|[A-F]){1,4}){7}))|(((([0-9]|[a-f]|[A-F]){1,4}\\:){0,6}|\\:)((\\:([0-9]|[a-f]|[A-F]){1,4}){0,6}|\\:)))/(1[0-2][0-7]|[1-9][0-9]|[1-9]))?$")
 	if ipv6SubnetMatch.MatchString(obj.Ipv6Subnet) == false {
 		return errors.New("ipv6Subnet string invalid format")
 	}

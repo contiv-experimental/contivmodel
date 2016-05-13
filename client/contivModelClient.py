@@ -220,6 +220,7 @@ class objmodelClient:
 			"ipv6Gateway": obj.ipv6Gateway, 
 			"ipv6Subnet": obj.ipv6Subnet, 
 			"networkName": obj.networkName, 
+			"nwType": obj.nwType, 
 			"pktTag": obj.pktTag, 
 			"subnet": obj.subnet, 
 			"tenantName": obj.tenantName, 
