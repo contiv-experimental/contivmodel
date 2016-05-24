@@ -152,8 +152,7 @@ type AppProfile struct {
 
 	AppProfileName string   `json:"appProfileName,omitempty"` // Application Profile Name
 	EndpointGroups []string `json:"endpointGroups,omitempty"`
-	NetworkName    string   `json:"networkName,omitempty"` // Network of App Prof
-	TenantName     string   `json:"tenantName,omitempty"`  // Tenant Name
+	TenantName     string   `json:"tenantName,omitempty"` // Tenant Name
 
 	// add link-sets and links
 	LinkSets AppProfileLinkSets `json:"link-sets,omitempty"`
@@ -165,19 +164,29 @@ type AppProfileLinkSets struct {
 }
 
 type AppProfileLinks struct {
-	Network Link `json:"Network,omitempty"`
-	Tenant  Link `json:"Tenant,omitempty"`
+	Tenant Link `json:"Tenant,omitempty"`
+}
+
+type Bgp struct {
+	// every object has a key
+	Key string `json:"key,omitempty"`
+
+	As         string `json:"as,omitempty"`          // AS id
+	Hostname   string `json:"hostname,omitempty"`    // host name
+	Neighbor   string `json:"neighbor,omitempty"`    // Bgp  neighbor
+	NeighborAs string `json:"neighbor-as,omitempty"` // AS id
+	Routerip   string `json:"routerip,omitempty"`    // Bgp router intf ip
+
 }
 
 type EndpointGroup struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
 
-	EndpointGroupID int      `json:"endpointGroupId,omitempty"` // Group Identifier
-	GroupName       string   `json:"groupName,omitempty"`       // Group name
-	NetworkName     string   `json:"networkName,omitempty"`     // Network
-	Policies        []string `json:"policies,omitempty"`
-	TenantName      string   `json:"tenantName,omitempty"` // Tenant
+	GroupName   string   `json:"groupName,omitempty"`   // Group name
+	NetworkName string   `json:"networkName,omitempty"` // Network
+	Policies    []string `json:"policies,omitempty"`
+	TenantName  string   `json:"tenantName,omitempty"` // Tenant
 
 	// add link-sets and links
 	LinkSets EndpointGroupLinkSets `json:"link-sets,omitempty"`
@@ -199,22 +208,10 @@ type Global struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
 
-	Name             string `json:"name,omitempty"`               // name of this block
-	NetworkInfraType string `json:"network-infra-type,omitempty"` // Network infrastructure type
-	Vlans            string `json:"vlans,omitempty"`              // Allowed vlan range
-	Vxlans           string `json:"vxlans,omitempty"`             // Allwed vxlan range
-
-}
-
-type Bgp struct {
-	// every object has a key
-	Key string `json:"key,omitempty"`
-
-	As         string `json:"as,omitempty"`          // AS id
-	Hostname   string `json:"hostname,omitempty"`    // host name
-	Neighbor   string `json:"neighbor,omitempty"`    // Bgp  neighbor
-	NeighborAs string `json:"neighbor-as,omitempty"` // AS id
-	Routerip   string `json:"routerip,omitempty"`    // Bgp router intf ip
+	Name             string `json:"name,omitempty"`             // name of this block(must be 'global')
+	NetworkInfraType string `json:"networkInfraType,omitempty"` // Network infrastructure type
+	Vlans            string `json:"vlans,omitempty"`            // Allowed vlan range
+	Vxlans           string `json:"vxlans,omitempty"`           // Allwed vxlan range
 
 }
 
@@ -238,7 +235,6 @@ type Network struct {
 }
 
 type NetworkLinkSets struct {
-	AppProfiles    map[string]Link `json:"AppProfiles,omitempty"`
 	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
 	Servicelbs     map[string]Link `json:"Servicelbs,omitempty"`
 	Services       map[string]Link `json:"Services,omitempty"`
@@ -294,62 +290,6 @@ type Rule struct {
 
 type RuleLinkSets struct {
 	Policies map[string]Link `json:"Policies,omitempty"`
-}
-
-type Service struct {
-	// every object has a key
-	Key string `json:"key,omitempty"`
-
-	AppName        string   `json:"appName,omitempty"` // Application Name
-	Command        string   `json:"command,omitempty"` //
-	Cpu            string   `json:"cpu,omitempty"`     //
-	EndpointGroups []string `json:"endpointGroups,omitempty"`
-	Environment    []string `json:"environment,omitempty"`
-	ImageName      string   `json:"imageName,omitempty"` //
-	Memory         string   `json:"memory,omitempty"`    //
-	Networks       []string `json:"networks,omitempty"`
-	Scale          int      `json:"scale,omitempty"`         //
-	ServiceName    string   `json:"serviceName,omitempty"`   // Service Name
-	TenantName     string   `json:"tenantName,omitempty"`    // Tenant Name
-	VolumeProfile  string   `json:"volumeProfile,omitempty"` //
-
-	// add link-sets and links
-	LinkSets ServiceLinkSets `json:"link-sets,omitempty"`
-	Links    ServiceLinks    `json:"links,omitempty"`
-}
-
-type ServiceLinkSets struct {
-	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
-	Instances      map[string]Link `json:"Instances,omitempty"`
-	Networks       map[string]Link `json:"Networks,omitempty"`
-}
-
-type ServiceLinks struct {
-	App           Link `json:"App,omitempty"`
-	VolumeProfile Link `json:"VolumeProfile,omitempty"`
-}
-
-type ServiceInstance struct {
-	// every object has a key
-	Key string `json:"key,omitempty"`
-
-	AppName     string   `json:"appName,omitempty"`     //
-	InstanceID  string   `json:"instanceId,omitempty"`  // Service instance id
-	ServiceName string   `json:"serviceName,omitempty"` //
-	TenantName  string   `json:"tenantName,omitempty"`  // Tenant Name
-	Volumes     []string `json:"volumes,omitempty"`
-
-	// add link-sets and links
-	LinkSets ServiceInstanceLinkSets `json:"link-sets,omitempty"`
-	Links    ServiceInstanceLinks    `json:"links,omitempty"`
-}
-
-type ServiceInstanceLinkSets struct {
-	Volumes map[string]Link `json:"Volumes,omitempty"`
-}
-
-type ServiceInstanceLinks struct {
-	Service Link `json:"Service,omitempty"`
 }
 
 type ServiceLB struct {
@@ -443,7 +383,7 @@ type VolumeProfileLinks struct {
 // AppProfilePost posts the appProfile object
 func (c *ContivClient) AppProfilePost(obj *AppProfile) error {
 	// build key and URL
-	keyStr := obj.TenantName + ":" + obj.NetworkName + ":" + obj.AppProfileName
+	keyStr := obj.TenantName + ":" + obj.AppProfileName
 	url := c.baseURL + "/api/appProfiles/" + keyStr + "/"
 
 	// http post the object
@@ -473,9 +413,9 @@ func (c *ContivClient) AppProfileList() (*[]*AppProfile, error) {
 }
 
 // AppProfileGet gets the appProfile object
-func (c *ContivClient) AppProfileGet(tenantName string, networkName string, appProfileName string) (*AppProfile, error) {
+func (c *ContivClient) AppProfileGet(tenantName string, appProfileName string) (*AppProfile, error) {
 	// build key and URL
-	keyStr := tenantName + ":" + networkName + ":" + appProfileName
+	keyStr := tenantName + ":" + appProfileName
 	url := c.baseURL + "/api/appProfiles/" + keyStr + "/"
 
 	// http get the object
@@ -490,9 +430,9 @@ func (c *ContivClient) AppProfileGet(tenantName string, networkName string, appP
 }
 
 // AppProfileDelete deletes the appProfile object
-func (c *ContivClient) AppProfileDelete(tenantName string, networkName string, appProfileName string) error {
+func (c *ContivClient) AppProfileDelete(tenantName string, appProfileName string) error {
 	// build key and URL
-	keyStr := tenantName + ":" + networkName + ":" + appProfileName
+	keyStr := tenantName + ":" + appProfileName
 	url := c.baseURL + "/api/appProfiles/" + keyStr + "/"
 
 	// http get the object
@@ -505,10 +445,75 @@ func (c *ContivClient) AppProfileDelete(tenantName string, networkName string, a
 	return nil
 }
 
+// BgpPost posts the Bgp object
+func (c *ContivClient) BgpPost(obj *Bgp) error {
+	// build key and URL
+	keyStr := obj.Hostname
+	url := c.baseURL + "/api/Bgps/" + keyStr + "/"
+
+	// http post the object
+	err := httpPost(url, obj)
+	if err != nil {
+		log.Debugf("Error creating Bgp %+v. Err: %v", obj, err)
+		return err
+	}
+
+	return nil
+}
+
+// BgpList lists all Bgp objects
+func (c *ContivClient) BgpList() (*[]*Bgp, error) {
+	// build key and URL
+	url := c.baseURL + "/api/Bgps/"
+
+	// http get the object
+	var objList []*Bgp
+	err := httpGet(url, &objList)
+	if err != nil {
+		log.Debugf("Error getting Bgps. Err: %v", err)
+		return nil, err
+	}
+
+	return &objList, nil
+}
+
+// BgpGet gets the Bgp object
+func (c *ContivClient) BgpGet(hostname string) (*Bgp, error) {
+	// build key and URL
+	keyStr := hostname
+	url := c.baseURL + "/api/Bgps/" + keyStr + "/"
+
+	// http get the object
+	var obj Bgp
+	err := httpGet(url, &obj)
+	if err != nil {
+		log.Debugf("Error getting Bgp %+v. Err: %v", keyStr, err)
+		return nil, err
+	}
+
+	return &obj, nil
+}
+
+// BgpDelete deletes the Bgp object
+func (c *ContivClient) BgpDelete(hostname string) error {
+	// build key and URL
+	keyStr := hostname
+	url := c.baseURL + "/api/Bgps/" + keyStr + "/"
+
+	// http get the object
+	err := httpDelete(url)
+	if err != nil {
+		log.Debugf("Error deleting Bgp %s. Err: %v", keyStr, err)
+		return err
+	}
+
+	return nil
+}
+
 // EndpointGroupPost posts the endpointGroup object
 func (c *ContivClient) EndpointGroupPost(obj *EndpointGroup) error {
 	// build key and URL
-	keyStr := obj.TenantName + ":" + obj.NetworkName + ":" + obj.GroupName
+	keyStr := obj.TenantName + ":" + obj.GroupName
 	url := c.baseURL + "/api/endpointGroups/" + keyStr + "/"
 
 	// http post the object
@@ -538,9 +543,9 @@ func (c *ContivClient) EndpointGroupList() (*[]*EndpointGroup, error) {
 }
 
 // EndpointGroupGet gets the endpointGroup object
-func (c *ContivClient) EndpointGroupGet(tenantName string, networkName string, groupName string) (*EndpointGroup, error) {
+func (c *ContivClient) EndpointGroupGet(tenantName string, groupName string) (*EndpointGroup, error) {
 	// build key and URL
-	keyStr := tenantName + ":" + networkName + ":" + groupName
+	keyStr := tenantName + ":" + groupName
 	url := c.baseURL + "/api/endpointGroups/" + keyStr + "/"
 
 	// http get the object
@@ -555,9 +560,9 @@ func (c *ContivClient) EndpointGroupGet(tenantName string, networkName string, g
 }
 
 // EndpointGroupDelete deletes the endpointGroup object
-func (c *ContivClient) EndpointGroupDelete(tenantName string, networkName string, groupName string) error {
+func (c *ContivClient) EndpointGroupDelete(tenantName string, groupName string) error {
 	// build key and URL
-	keyStr := tenantName + ":" + networkName + ":" + groupName
+	keyStr := tenantName + ":" + groupName
 	url := c.baseURL + "/api/endpointGroups/" + keyStr + "/"
 
 	// http get the object
@@ -629,71 +634,6 @@ func (c *ContivClient) GlobalDelete(name string) error {
 	err := httpDelete(url)
 	if err != nil {
 		log.Debugf("Error deleting global %s. Err: %v", keyStr, err)
-		return err
-	}
-
-	return nil
-}
-
-// BgpPost posts the Bgp object
-func (c *ContivClient) BgpPost(obj *Bgp) error {
-	// build key and URL
-	keyStr := obj.Hostname
-	url := c.baseURL + "/api/Bgps/" + keyStr + "/"
-
-	// http post the object
-	err := httpPost(url, obj)
-	if err != nil {
-		log.Debugf("Error creating Bgp %+v. Err: %v", obj, err)
-		return err
-	}
-
-	return nil
-}
-
-// BgpList lists all Bgp objects
-func (c *ContivClient) BgpList() (*[]*Bgp, error) {
-	// build key and URL
-	url := c.baseURL + "/api/Bgps/"
-
-	// http get the object
-	var objList []*Bgp
-	err := httpGet(url, &objList)
-	if err != nil {
-		log.Debugf("Error getting Bgps. Err: %v", err)
-		return nil, err
-	}
-
-	return &objList, nil
-}
-
-// BgpGet gets the Bgp object
-func (c *ContivClient) BgpGet(hostname string) (*Bgp, error) {
-	// build key and URL
-	keyStr := hostname
-	url := c.baseURL + "/api/Bgps/" + keyStr + "/"
-
-	// http get the object
-	var obj Bgp
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting Bgp %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
-// BgpDelete deletes the Bgp object
-func (c *ContivClient) BgpDelete(hostname string) error {
-	// build key and URL
-	keyStr := hostname
-	url := c.baseURL + "/api/Bgps/" + keyStr + "/"
-
-	// http get the object
-	err := httpDelete(url)
-	if err != nil {
-		log.Debugf("Error deleting Bgp %s. Err: %v", keyStr, err)
 		return err
 	}
 
@@ -889,136 +829,6 @@ func (c *ContivClient) RuleDelete(tenantName string, policyName string, ruleId s
 	err := httpDelete(url)
 	if err != nil {
 		log.Debugf("Error deleting rule %s. Err: %v", keyStr, err)
-		return err
-	}
-
-	return nil
-}
-
-// ServicePost posts the service object
-func (c *ContivClient) ServicePost(obj *Service) error {
-	// build key and URL
-	keyStr := obj.TenantName + ":" + obj.AppName + ":" + obj.ServiceName
-	url := c.baseURL + "/api/services/" + keyStr + "/"
-
-	// http post the object
-	err := httpPost(url, obj)
-	if err != nil {
-		log.Debugf("Error creating service %+v. Err: %v", obj, err)
-		return err
-	}
-
-	return nil
-}
-
-// ServiceList lists all service objects
-func (c *ContivClient) ServiceList() (*[]*Service, error) {
-	// build key and URL
-	url := c.baseURL + "/api/services/"
-
-	// http get the object
-	var objList []*Service
-	err := httpGet(url, &objList)
-	if err != nil {
-		log.Debugf("Error getting services. Err: %v", err)
-		return nil, err
-	}
-
-	return &objList, nil
-}
-
-// ServiceGet gets the service object
-func (c *ContivClient) ServiceGet(tenantName string, appName string, serviceName string) (*Service, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + appName + ":" + serviceName
-	url := c.baseURL + "/api/services/" + keyStr + "/"
-
-	// http get the object
-	var obj Service
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting service %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
-// ServiceDelete deletes the service object
-func (c *ContivClient) ServiceDelete(tenantName string, appName string, serviceName string) error {
-	// build key and URL
-	keyStr := tenantName + ":" + appName + ":" + serviceName
-	url := c.baseURL + "/api/services/" + keyStr + "/"
-
-	// http get the object
-	err := httpDelete(url)
-	if err != nil {
-		log.Debugf("Error deleting service %s. Err: %v", keyStr, err)
-		return err
-	}
-
-	return nil
-}
-
-// ServiceInstancePost posts the serviceInstance object
-func (c *ContivClient) ServiceInstancePost(obj *ServiceInstance) error {
-	// build key and URL
-	keyStr := obj.TenantName + ":" + obj.AppName + ":" + obj.ServiceName + ":" + obj.InstanceID
-	url := c.baseURL + "/api/serviceInstances/" + keyStr + "/"
-
-	// http post the object
-	err := httpPost(url, obj)
-	if err != nil {
-		log.Debugf("Error creating serviceInstance %+v. Err: %v", obj, err)
-		return err
-	}
-
-	return nil
-}
-
-// ServiceInstanceList lists all serviceInstance objects
-func (c *ContivClient) ServiceInstanceList() (*[]*ServiceInstance, error) {
-	// build key and URL
-	url := c.baseURL + "/api/serviceInstances/"
-
-	// http get the object
-	var objList []*ServiceInstance
-	err := httpGet(url, &objList)
-	if err != nil {
-		log.Debugf("Error getting serviceInstances. Err: %v", err)
-		return nil, err
-	}
-
-	return &objList, nil
-}
-
-// ServiceInstanceGet gets the serviceInstance object
-func (c *ContivClient) ServiceInstanceGet(tenantName string, appName string, serviceName string, instanceId string) (*ServiceInstance, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + appName + ":" + serviceName + ":" + instanceId
-	url := c.baseURL + "/api/serviceInstances/" + keyStr + "/"
-
-	// http get the object
-	var obj ServiceInstance
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting serviceInstance %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
-// ServiceInstanceDelete deletes the serviceInstance object
-func (c *ContivClient) ServiceInstanceDelete(tenantName string, appName string, serviceName string, instanceId string) error {
-	// build key and URL
-	keyStr := tenantName + ":" + appName + ":" + serviceName + ":" + instanceId
-	url := c.baseURL + "/api/serviceInstances/" + keyStr + "/"
-
-	// http get the object
-	err := httpDelete(url)
-	if err != nil {
-		log.Debugf("Error deleting serviceInstance %s. Err: %v", keyStr, err)
 		return err
 	}
 
