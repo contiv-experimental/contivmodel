@@ -23,19 +23,11 @@ type AppProfile struct {
 	EndpointGroups []string `json:"endpointGroups,omitempty"`
 	TenantName     string   `json:"tenantName,omitempty"` // Tenant Name
 
-	// add link-sets and links
-	LinkSets AppProfileLinkSets `json:"link-sets,omitempty"`
-	Links    AppProfileLinks    `json:"links,omitempty"`
 }
 
-type AppProfileLinkSets struct {
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
+type AppProfileInspect struct {
+	Config AppProfile
 }
-
-type AppProfileLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
-}
-
 type Bgp struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -48,6 +40,9 @@ type Bgp struct {
 
 }
 
+type BgpInspect struct {
+	Config Bgp
+}
 type EndpointGroup struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -57,22 +52,11 @@ type EndpointGroup struct {
 	Policies    []string `json:"policies,omitempty"`
 	TenantName  string   `json:"tenantName,omitempty"` // Tenant
 
-	// add link-sets and links
-	LinkSets EndpointGroupLinkSets `json:"link-sets,omitempty"`
-	Links    EndpointGroupLinks    `json:"links,omitempty"`
 }
 
-type EndpointGroupLinkSets struct {
-	Policies map[string]modeldb.Link `json:"Policies,omitempty"`
-	Services map[string]modeldb.Link `json:"Services,omitempty"`
+type EndpointGroupInspect struct {
+	Config EndpointGroup
 }
-
-type EndpointGroupLinks struct {
-	AppProfile modeldb.Link `json:"AppProfile,omitempty"`
-	Network    modeldb.Link `json:"Network,omitempty"`
-	Tenant     modeldb.Link `json:"Tenant,omitempty"`
-}
-
 type Global struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -84,6 +68,9 @@ type Global struct {
 
 }
 
+type GlobalInspect struct {
+	Config Global
+}
 type Network struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -98,21 +85,11 @@ type Network struct {
 	Subnet      string `json:"subnet,omitempty"`      // Subnet
 	TenantName  string `json:"tenantName,omitempty"`  // Tenant Name
 
-	// add link-sets and links
-	LinkSets NetworkLinkSets `json:"link-sets,omitempty"`
-	Links    NetworkLinks    `json:"links,omitempty"`
 }
 
-type NetworkLinkSets struct {
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Servicelbs     map[string]modeldb.Link `json:"Servicelbs,omitempty"`
-	Services       map[string]modeldb.Link `json:"Services,omitempty"`
+type NetworkInspect struct {
+	Config Network
 }
-
-type NetworkLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
-}
-
 type Policy struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -120,20 +97,11 @@ type Policy struct {
 	PolicyName string `json:"policyName,omitempty"` // Policy Name
 	TenantName string `json:"tenantName,omitempty"` // Tenant Name
 
-	// add link-sets and links
-	LinkSets PolicyLinkSets `json:"link-sets,omitempty"`
-	Links    PolicyLinks    `json:"links,omitempty"`
 }
 
-type PolicyLinkSets struct {
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Rules          map[string]modeldb.Link `json:"Rules,omitempty"`
+type PolicyInspect struct {
+	Config Policy
 }
-
-type PolicyLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
-}
-
 type Rule struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -153,14 +121,11 @@ type Rule struct {
 	ToIpAddress       string `json:"toIpAddress,omitempty"`       // IP Address
 	ToNetwork         string `json:"toNetwork,omitempty"`         // To Network
 
-	// add link-sets and links
-	LinkSets RuleLinkSets `json:"link-sets,omitempty"`
 }
 
-type RuleLinkSets struct {
-	Policies map[string]modeldb.Link `json:"Policies,omitempty"`
+type RuleInspect struct {
+	Config Rule
 }
-
 type ServiceLB struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -172,14 +137,11 @@ type ServiceLB struct {
 	ServiceName string   `json:"serviceName,omitempty"` // service name
 	TenantName  string   `json:"tenantName,omitempty"`  // Tenant Name
 
-	Links ServiceLBLinks `json:"links,omitempty"`
 }
 
-type ServiceLBLinks struct {
-	Network modeldb.Link `json:"Network,omitempty"`
-	Tenant  modeldb.Link `json:"Tenant,omitempty"`
+type ServiceLBInspect struct {
+	Config ServiceLB
 }
-
 type Tenant struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -187,20 +149,11 @@ type Tenant struct {
 	DefaultNetwork string `json:"defaultNetwork,omitempty"` // Network name
 	TenantName     string `json:"tenantName,omitempty"`     // Tenant Name
 
-	// add link-sets and links
-	LinkSets TenantLinkSets `json:"link-sets,omitempty"`
 }
 
-type TenantLinkSets struct {
-	AppProfiles    map[string]modeldb.Link `json:"AppProfiles,omitempty"`
-	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
-	Networks       map[string]modeldb.Link `json:"Networks,omitempty"`
-	Policies       map[string]modeldb.Link `json:"Policies,omitempty"`
-	Servicelbs     map[string]modeldb.Link `json:"Servicelbs,omitempty"`
-	VolumeProfiles map[string]modeldb.Link `json:"VolumeProfiles,omitempty"`
-	Volumes        map[string]modeldb.Link `json:"Volumes,omitempty"`
+type TenantInspect struct {
+	Config Tenant
 }
-
 type Volume struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -212,19 +165,11 @@ type Volume struct {
 	TenantName    string `json:"tenantName,omitempty"`    // Tenant Name
 	VolumeName    string `json:"volumeName,omitempty"`    // Volume Name
 
-	// add link-sets and links
-	LinkSets VolumeLinkSets `json:"link-sets,omitempty"`
-	Links    VolumeLinks    `json:"links,omitempty"`
 }
 
-type VolumeLinkSets struct {
-	ServiceInstances map[string]modeldb.Link `json:"ServiceInstances,omitempty"`
+type VolumeInspect struct {
+	Config Volume
 }
-
-type VolumeLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
-}
-
 type VolumeProfile struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -236,19 +181,11 @@ type VolumeProfile struct {
 	TenantName        string `json:"tenantName,omitempty"`        // Tenant Name
 	VolumeProfileName string `json:"volumeProfileName,omitempty"` // Volume profile Name
 
-	// add link-sets and links
-	LinkSets VolumeProfileLinkSets `json:"link-sets,omitempty"`
-	Links    VolumeProfileLinks    `json:"links,omitempty"`
 }
 
-type VolumeProfileLinkSets struct {
-	Services map[string]modeldb.Link `json:"Services,omitempty"`
+type VolumeProfileInspect struct {
+	Config VolumeProfile
 }
-
-type VolumeProfileLinks struct {
-	Tenant modeldb.Link `json:"Tenant,omitempty"`
-}
-
 type Collections struct {
 	appProfiles    map[string]*AppProfile
 	Bgps           map[string]*Bgp
@@ -458,8 +395,8 @@ func AddRoutes(router *mux.Router) {
 	var route, listRoute string
 
 	// Register appProfile
-	route = "/api/appProfiles/{key}/"
-	listRoute = "/api/appProfiles/"
+	route = "/api/v1/appProfiles/{key}/"
+	listRoute = "/api/v1/appProfiles/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListAppProfiles))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetAppProfile))
@@ -468,8 +405,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteAppProfile))
 
 	// Register Bgp
-	route = "/api/Bgps/{key}/"
-	listRoute = "/api/Bgps/"
+	route = "/api/v1/Bgps/{key}/"
+	listRoute = "/api/v1/Bgps/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListBgps))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetBgp))
@@ -478,8 +415,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteBgp))
 
 	// Register endpointGroup
-	route = "/api/endpointGroups/{key}/"
-	listRoute = "/api/endpointGroups/"
+	route = "/api/v1/endpointGroups/{key}/"
+	listRoute = "/api/v1/endpointGroups/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListEndpointGroups))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetEndpointGroup))
@@ -488,8 +425,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteEndpointGroup))
 
 	// Register global
-	route = "/api/globals/{key}/"
-	listRoute = "/api/globals/"
+	route = "/api/v1/globals/{key}/"
+	listRoute = "/api/v1/globals/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListGlobals))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetGlobal))
@@ -498,8 +435,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteGlobal))
 
 	// Register network
-	route = "/api/networks/{key}/"
-	listRoute = "/api/networks/"
+	route = "/api/v1/networks/{key}/"
+	listRoute = "/api/v1/networks/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListNetworks))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetNetwork))
@@ -508,8 +445,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteNetwork))
 
 	// Register policy
-	route = "/api/policys/{key}/"
-	listRoute = "/api/policys/"
+	route = "/api/v1/policys/{key}/"
+	listRoute = "/api/v1/policys/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListPolicys))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetPolicy))
@@ -518,8 +455,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeletePolicy))
 
 	// Register rule
-	route = "/api/rules/{key}/"
-	listRoute = "/api/rules/"
+	route = "/api/v1/rules/{key}/"
+	listRoute = "/api/v1/rules/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListRules))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetRule))
@@ -528,8 +465,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteRule))
 
 	// Register serviceLB
-	route = "/api/serviceLBs/{key}/"
-	listRoute = "/api/serviceLBs/"
+	route = "/api/v1/serviceLBs/{key}/"
+	listRoute = "/api/v1/serviceLBs/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListServiceLBs))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetServiceLB))
@@ -538,8 +475,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteServiceLB))
 
 	// Register tenant
-	route = "/api/tenants/{key}/"
-	listRoute = "/api/tenants/"
+	route = "/api/v1/tenants/{key}/"
+	listRoute = "/api/v1/tenants/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListTenants))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetTenant))
@@ -548,8 +485,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteTenant))
 
 	// Register volume
-	route = "/api/volumes/{key}/"
-	listRoute = "/api/volumes/"
+	route = "/api/v1/volumes/{key}/"
+	listRoute = "/api/v1/volumes/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListVolumes))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetVolume))
@@ -558,8 +495,8 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteVolume))
 
 	// Register volumeProfile
-	route = "/api/volumeProfiles/{key}/"
-	listRoute = "/api/volumeProfiles/"
+	route = "/api/v1/volumeProfiles/{key}/"
+	listRoute = "/api/v1/volumeProfiles/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListVolumeProfiles))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetVolumeProfile))
@@ -596,6 +533,24 @@ func httpGetAppProfile(w http.ResponseWriter, r *http.Request, vars map[string]s
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectAppProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj AppProfileInspect
+	log.Debugf("Received httpInspectAppProfile: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.appProfiles[key]
+	if objConfig == nil {
+		log.Errorf("appProfile %s not found", key)
+		return nil, errors.New("appProfile not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
@@ -853,6 +808,24 @@ func httpGetBgp(w http.ResponseWriter, r *http.Request, vars map[string]string) 
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectBgp(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj BgpInspect
+	log.Debugf("Received httpInspectBgp: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.Bgps[key]
+	if objConfig == nil {
+		log.Errorf("Bgp %s not found", key)
+		return nil, errors.New("Bgp not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
@@ -1129,6 +1102,24 @@ func httpGetEndpointGroup(w http.ResponseWriter, r *http.Request, vars map[strin
 	return obj, nil
 }
 
+// GET Oper REST call
+func httpInspectEndpointGroup(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj EndpointGroupInspect
+	log.Debugf("Received httpInspectEndpointGroup: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.endpointGroups[key]
+	if objConfig == nil {
+		log.Errorf("endpointGroup %s not found", key)
+		return nil, errors.New("endpointGroup not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // CREATE REST call
 func httpCreateEndpointGroup(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetEndpointGroup: %+v", vars)
@@ -1393,6 +1384,24 @@ func httpGetGlobal(w http.ResponseWriter, r *http.Request, vars map[string]strin
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectGlobal(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj GlobalInspect
+	log.Debugf("Received httpInspectGlobal: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.globals[key]
+	if objConfig == nil {
+		log.Errorf("global %s not found", key)
+		return nil, errors.New("global not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
@@ -1660,6 +1669,24 @@ func httpGetNetwork(w http.ResponseWriter, r *http.Request, vars map[string]stri
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectNetwork(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj NetworkInspect
+	log.Debugf("Received httpInspectNetwork: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.networks[key]
+	if objConfig == nil {
+		log.Errorf("network %s not found", key)
+		return nil, errors.New("network not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
@@ -1957,6 +1984,24 @@ func httpGetPolicy(w http.ResponseWriter, r *http.Request, vars map[string]strin
 	return obj, nil
 }
 
+// GET Oper REST call
+func httpInspectPolicy(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj PolicyInspect
+	log.Debugf("Received httpInspectPolicy: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.policys[key]
+	if objConfig == nil {
+		log.Errorf("policy %s not found", key)
+		return nil, errors.New("policy not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // CREATE REST call
 func httpCreatePolicy(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetPolicy: %+v", vars)
@@ -2212,6 +2257,24 @@ func httpGetRule(w http.ResponseWriter, r *http.Request, vars map[string]string)
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectRule(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj RuleInspect
+	log.Debugf("Received httpInspectRule: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.rules[key]
+	if objConfig == nil {
+		log.Errorf("rule %s not found", key)
+		return nil, errors.New("rule not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
@@ -2557,6 +2620,24 @@ func httpGetServiceLB(w http.ResponseWriter, r *http.Request, vars map[string]st
 	return obj, nil
 }
 
+// GET Oper REST call
+func httpInspectServiceLB(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj ServiceLBInspect
+	log.Debugf("Received httpInspectServiceLB: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.serviceLBs[key]
+	if objConfig == nil {
+		log.Errorf("serviceLB %s not found", key)
+		return nil, errors.New("serviceLB not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // CREATE REST call
 func httpCreateServiceLB(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetServiceLB: %+v", vars)
@@ -2832,6 +2913,24 @@ func httpGetTenant(w http.ResponseWriter, r *http.Request, vars map[string]strin
 	return obj, nil
 }
 
+// GET Oper REST call
+func httpInspectTenant(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj TenantInspect
+	log.Debugf("Received httpInspectTenant: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.tenants[key]
+	if objConfig == nil {
+		log.Errorf("tenant %s not found", key)
+		return nil, errors.New("tenant not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // CREATE REST call
 func httpCreateTenant(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetTenant: %+v", vars)
@@ -3089,6 +3188,24 @@ func httpGetVolume(w http.ResponseWriter, r *http.Request, vars map[string]strin
 	return obj, nil
 }
 
+// GET Oper REST call
+func httpInspectVolume(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj VolumeInspect
+	log.Debugf("Received httpInspectVolume: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.volumes[key]
+	if objConfig == nil {
+		log.Errorf("volume %s not found", key)
+		return nil, errors.New("volume not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // CREATE REST call
 func httpCreateVolume(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetVolume: %+v", vars)
@@ -3326,6 +3443,24 @@ func httpGetVolumeProfile(w http.ResponseWriter, r *http.Request, vars map[strin
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectVolumeProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj VolumeProfileInspect
+	log.Debugf("Received httpInspectVolumeProfile: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.volumeProfiles[key]
+	if objConfig == nil {
+		log.Errorf("volumeProfile %s not found", key)
+		return nil, errors.New("volumeProfile not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
