@@ -268,7 +268,6 @@ type NetworkOper struct {
 	NumEndpoints            int    `json:"numEndpoints,omitempty"`            // external packet tag
 	PktTag                  int    `json:"pktTag,omitempty"`                  // internal packet tag
 
-	OperLinks NetworkLinks `json:"links,omitempty"`
 }
 
 type NetworkInspect struct {
