@@ -421,7 +421,6 @@ type GlobalCallbacks interface {
 
 type NetworkCallbacks interface {
 	NetworkGetOper(network *NetworkInspect) error
-
 	NetworkCreate(network *Network) error
 	NetworkUpdate(network, params *Network) error
 	NetworkDelete(network *Network) error
