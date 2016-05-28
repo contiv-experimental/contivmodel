@@ -125,8 +125,21 @@ type NetworkLinks struct {
 	Tenant modeldb.Link `json:"Tenant,omitempty"`
 }
 
+type NetworkOper struct {
+	AllocatedAddressesCount int    `json:"allocatedAddressesCount,omitempty"` // Vlan/Vxlan Tag
+	AllocatedIPAddresses    string `json:"allocatedIPAddresses,omitempty"`    // allocated IP addresses
+	DnsServerIP             string `json:"dnsServerIP,omitempty"`             // dns IP for the network
+	ExternalPktTag          int    `json:"externalPktTag,omitempty"`          // external packet tag
+	NumEndpoints            int    `json:"numEndpoints,omitempty"`            // external packet tag
+	PktTag                  int    `json:"pktTag,omitempty"`                  // internal packet tag
+
+	OperLinks NetworkLinks `json:"links,omitempty"`
+}
+
 type NetworkInspect struct {
 	Config Network
+
+	Oper NetworkOper
 }
 type Policy struct {
 	// every object has a key
@@ -323,6 +336,8 @@ type GlobalCallbacks interface {
 }
 
 type NetworkCallbacks interface {
+	NetworkGetOper(network *NetworkInspect) error
+
 	NetworkCreate(network *Network) error
 	NetworkUpdate(network, params *Network) error
 	NetworkDelete(network *Network) error
@@ -671,17 +686,6 @@ func httpInspectAppProfile(w http.ResponseWriter, r *http.Request, vars map[stri
 	return &obj, nil
 }
 
-// Get a appProfileOper object
-func GetOperAppProfile(key string) error {
-	obj := collections.appProfiles[key]
-	if obj == nil {
-		log.Errorf("appProfile %s not found", key)
-		return errors.New("appProfile not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreateAppProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetAppProfile: %+v", vars)
@@ -955,17 +959,6 @@ func httpInspectBgp(w http.ResponseWriter, r *http.Request, vars map[string]stri
 
 	// Return the obj
 	return &obj, nil
-}
-
-// Get a BgpOper object
-func GetOperBgp(key string) error {
-	obj := collections.Bgps[key]
-	if obj == nil {
-		log.Errorf("Bgp %s not found", key)
-		return errors.New("Bgp not found")
-	}
-
-	return nil
 }
 
 // CREATE REST call
@@ -1260,17 +1253,6 @@ func httpInspectEndpointGroup(w http.ResponseWriter, r *http.Request, vars map[s
 	return &obj, nil
 }
 
-// Get a endpointGroupOper object
-func GetOperEndpointGroup(key string) error {
-	obj := collections.endpointGroups[key]
-	if obj == nil {
-		log.Errorf("endpointGroup %s not found", key)
-		return errors.New("endpointGroup not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreateEndpointGroup(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetEndpointGroup: %+v", vars)
@@ -1555,17 +1537,6 @@ func httpInspectGlobal(w http.ResponseWriter, r *http.Request, vars map[string]s
 	return &obj, nil
 }
 
-// Get a globalOper object
-func GetOperGlobal(key string) error {
-	obj := collections.globals[key]
-	if obj == nil {
-		log.Errorf("global %s not found", key)
-		return errors.New("global not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreateGlobal(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetGlobal: %+v", vars)
@@ -1847,16 +1818,28 @@ func httpInspectNetwork(w http.ResponseWriter, r *http.Request, vars map[string]
 	}
 	obj.Config = *objConfig
 
+	if err := GetOperNetwork(&obj); err != nil {
+		log.Errorf("GetNetwork error for: %+v. Err: %v", obj, err)
+		return nil, err
+	}
+
 	// Return the obj
 	return &obj, nil
 }
 
 // Get a networkOper object
-func GetOperNetwork(key string) error {
-	obj := collections.networks[key]
-	if obj == nil {
-		log.Errorf("network %s not found", key)
-		return errors.New("network not found")
+func GetOperNetwork(obj *NetworkInspect) error {
+	// Check if we handle this object
+	if objCallbackHandler.NetworkCb == nil {
+		log.Errorf("No callback registered for network object")
+		return errors.New("Invalid object type")
+	}
+
+	// Perform callback
+	err := objCallbackHandler.NetworkCb.NetworkGetOper(obj)
+	if err != nil {
+		log.Errorf("NetworkDelete retruned error for: %+v. Err: %v", obj, err)
+		return err
 	}
 
 	return nil
@@ -2175,17 +2158,6 @@ func httpInspectPolicy(w http.ResponseWriter, r *http.Request, vars map[string]s
 	return &obj, nil
 }
 
-// Get a policyOper object
-func GetOperPolicy(key string) error {
-	obj := collections.policys[key]
-	if obj == nil {
-		log.Errorf("policy %s not found", key)
-		return errors.New("policy not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreatePolicy(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetPolicy: %+v", vars)
@@ -2459,17 +2431,6 @@ func httpInspectRule(w http.ResponseWriter, r *http.Request, vars map[string]str
 
 	// Return the obj
 	return &obj, nil
-}
-
-// Get a ruleOper object
-func GetOperRule(key string) error {
-	obj := collections.rules[key]
-	if obj == nil {
-		log.Errorf("rule %s not found", key)
-		return errors.New("rule not found")
-	}
-
-	return nil
 }
 
 // CREATE REST call
@@ -2833,17 +2794,6 @@ func httpInspectServiceLB(w http.ResponseWriter, r *http.Request, vars map[strin
 	return &obj, nil
 }
 
-// Get a serviceLBOper object
-func GetOperServiceLB(key string) error {
-	obj := collections.serviceLBs[key]
-	if obj == nil {
-		log.Errorf("serviceLB %s not found", key)
-		return errors.New("serviceLB not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreateServiceLB(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetServiceLB: %+v", vars)
@@ -3137,17 +3087,6 @@ func httpInspectTenant(w http.ResponseWriter, r *http.Request, vars map[string]s
 	return &obj, nil
 }
 
-// Get a tenantOper object
-func GetOperTenant(key string) error {
-	obj := collections.tenants[key]
-	if obj == nil {
-		log.Errorf("tenant %s not found", key)
-		return errors.New("tenant not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreateTenant(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetTenant: %+v", vars)
@@ -3423,17 +3362,6 @@ func httpInspectVolume(w http.ResponseWriter, r *http.Request, vars map[string]s
 	return &obj, nil
 }
 
-// Get a volumeOper object
-func GetOperVolume(key string) error {
-	obj := collections.volumes[key]
-	if obj == nil {
-		log.Errorf("volume %s not found", key)
-		return errors.New("volume not found")
-	}
-
-	return nil
-}
-
 // CREATE REST call
 func httpCreateVolume(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetVolume: %+v", vars)
@@ -3689,17 +3617,6 @@ func httpInspectVolumeProfile(w http.ResponseWriter, r *http.Request, vars map[s
 
 	// Return the obj
 	return &obj, nil
-}
-
-// Get a volumeProfileOper object
-func GetOperVolumeProfile(key string) error {
-	obj := collections.volumeProfiles[key]
-	if obj == nil {
-		log.Errorf("volumeProfile %s not found", key)
-		return errors.New("volumeProfile not found")
-	}
-
-	return nil
 }
 
 // CREATE REST call
