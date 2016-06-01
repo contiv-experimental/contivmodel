@@ -1,35 +1,41 @@
 {
-	"name": "contivModel",
-	"objects": [
-		{
-			"name": "extContractsGroup",
-			"type": "object",
-			"key": [ "contractsGroupName" ],
-			"properties": {
-				"contractsGroupName": {
-					"type": "string",
-					"description": "Contracts group name",
-					"title": "Contracts group name",
-					"showSummary": true
-				},
-				"contractsType": {
-					"type": "string",
-					"description": "Contracts type (Provided -or- Consumed)",
-					"title": "Contracts type",
-					"showSummary": true
-				},
-				"contracts": {
-					"type": "array",
-					"items": "string",
-					"description": "List of contracts provided or consumed",
-					"title": "Contracts list"
+        "name": "contivModel",
+                "objects": [
+                {
+                        "name": "extContractsGroup",
+                        "type": "object",
+                        "key": [ "tenantName", "contractsGroupName" ],
+                        "properties": {
+                                "tenantName": {
+                                        "type": "string",
+                                        "title": "Tenant name",
+                                        "description": "Tenant name",
+                                        "showSummary": true
+                                },
+                                "contractsGroupName": {
+                                        "type": "string",
+                                        "description": "Contracts group name",
+                                        "title": "Contracts group name",
+                                        "showSummary": true
+                                },
+                                "contractsType": {
+                                        "type": "string",
+                                        "description": "Contracts type (Provided -or- Consumed)",
+                                        "title": "Contracts type",
+                                        "showSummary": true
+                                },
+                                "contracts": {
+                                        "type": "array",
+                                        "items": "string",
+                                        "description": "List of contracts provided or consumed",
+                                        "title": "Contracts list"
                                 }
-			},
-			"link-sets": {
-				"endpointGroups": {
-					"ref": "endpointGroup"
-				}
-			}
-		}
-	]
+                        },
+                        "link-sets": {
+                                "endpointGroups": {
+                                        "ref": "endpointGroup"
+                                }
+                        }
+                }
+        ]
 }

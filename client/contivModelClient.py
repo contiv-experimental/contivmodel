@@ -178,12 +178,13 @@ class objmodelClient:
 	    return json.loads(retData)
 	# Create extContractsGroup
 	def createExtContractsGroup(self, obj):
-	    postUrl = self.baseUrl + '/api/extContractsGroups/' + obj.contractsGroupName  + '/'
+	    postUrl = self.baseUrl + '/api/extContractsGroups/' + obj.tenantName + ":" + obj.contractsGroupName  + '/'
 
 	    jdata = json.dumps({ 
 			"contracts": obj.contracts, 
 			"contractsGroupName": obj.contractsGroupName, 
 			"contractsType": obj.contractsType, 
+			"tenantName": obj.tenantName, 
 	    })
 
 	    # Post the data
@@ -193,9 +194,9 @@ class objmodelClient:
 	        errorExit("ExtContractsGroup create failure")
 
 	# Delete extContractsGroup
-	def deleteExtContractsGroup(self, contractsGroupName):
+	def deleteExtContractsGroup(self, tenantName, contractsGroupName):
 	    # Delete ExtContractsGroup
-	    deleteUrl = self.baseUrl + '/api/extContractsGroups/' + contractsGroupName  + '/'
+	    deleteUrl = self.baseUrl + '/api/extContractsGroups/' + tenantName + ":" + contractsGroupName  + '/'
 	    response = httpDelete(deleteUrl)
 
 	    if response == "Error":

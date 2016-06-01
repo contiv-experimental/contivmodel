@@ -215,6 +215,7 @@ type ExtContractsGroup struct {
 	Contracts          []string `json:"contracts,omitempty"`
 	ContractsGroupName string   `json:"contractsGroupName,omitempty"` // Contracts group name
 	ContractsType      string   `json:"contractsType,omitempty"`      // Contracts type
+	TenantName         string   `json:"tenantName,omitempty"`         // Tenant name
 
 	// add link-sets and links
 	LinkSets ExtContractsGroupLinkSets `json:"link-sets,omitempty"`
@@ -598,7 +599,7 @@ func (c *ContivClient) EndpointGroupDelete(tenantName string, groupName string) 
 // ExtContractsGroupPost posts the extContractsGroup object
 func (c *ContivClient) ExtContractsGroupPost(obj *ExtContractsGroup) error {
 	// build key and URL
-	keyStr := obj.ContractsGroupName
+	keyStr := obj.TenantName + ":" + obj.ContractsGroupName
 	url := c.baseURL + "/api/extContractsGroups/" + keyStr + "/"
 
 	// http post the object
@@ -628,9 +629,9 @@ func (c *ContivClient) ExtContractsGroupList() (*[]*ExtContractsGroup, error) {
 }
 
 // ExtContractsGroupGet gets the extContractsGroup object
-func (c *ContivClient) ExtContractsGroupGet(contractsGroupName string) (*ExtContractsGroup, error) {
+func (c *ContivClient) ExtContractsGroupGet(tenantName string, contractsGroupName string) (*ExtContractsGroup, error) {
 	// build key and URL
-	keyStr := contractsGroupName
+	keyStr := tenantName + ":" + contractsGroupName
 	url := c.baseURL + "/api/extContractsGroups/" + keyStr + "/"
 
 	// http get the object
@@ -645,9 +646,9 @@ func (c *ContivClient) ExtContractsGroupGet(contractsGroupName string) (*ExtCont
 }
 
 // ExtContractsGroupDelete deletes the extContractsGroup object
-func (c *ContivClient) ExtContractsGroupDelete(contractsGroupName string) error {
+func (c *ContivClient) ExtContractsGroupDelete(tenantName string, contractsGroupName string) error {
 	// build key and URL
-	keyStr := contractsGroupName
+	keyStr := tenantName + ":" + contractsGroupName
 	url := c.baseURL + "/api/extContractsGroups/" + keyStr + "/"
 
 	// http get the object

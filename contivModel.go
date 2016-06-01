@@ -84,6 +84,7 @@ type ExtContractsGroup struct {
 	Contracts          []string `json:"contracts,omitempty"`
 	ContractsGroupName string   `json:"contractsGroupName,omitempty"` // Contracts group name
 	ContractsType      string   `json:"contractsType,omitempty"`      // Contracts type
+	TenantName         string   `json:"tenantName,omitempty"`         // Tenant name
 
 	// add link-sets and links
 	LinkSets ExtContractsGroupLinkSets `json:"link-sets,omitempty"`
@@ -1638,7 +1639,7 @@ func restoreExtContractsGroup() error {
 // Validate a extContractsGroup object
 func ValidateExtContractsGroup(obj *ExtContractsGroup) error {
 	// Validate key is correct
-	keyStr := obj.ContractsGroupName
+	keyStr := obj.TenantName + ":" + obj.ContractsGroupName
 	if obj.Key != keyStr {
 		log.Errorf("Expecting ExtContractsGroup Key: %s. Got: %s", keyStr, obj.Key)
 		return errors.New("Invalid Key")

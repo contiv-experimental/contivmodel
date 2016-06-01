@@ -218,6 +218,8 @@ var ExtContractsGroupSummaryView = React.createClass({
 						<td>{ extContractsGroup.contractsGroupName }</td>
 						 
 						<td>{ extContractsGroup.contractsType }</td>
+						 
+						<td>{ extContractsGroup.tenantName }</td>
 						
 					</tr>
 				</ModalTrigger>
@@ -232,7 +234,8 @@ var ExtContractsGroupSummaryView = React.createClass({
 					
 					  
 						<th> Contracts group name </th>  
-						<th> Contracts type </th> 
+						<th> Contracts type </th>  
+						<th> Tenant name </th> 
 					</tr>
 				</thead>
 				<tbody>
@@ -257,6 +260,8 @@ var ExtContractsGroupModalView = React.createClass({
 				<Input type='text' label='Contracts group name' ref='contractsGroupName' defaultValue={obj.contractsGroupName} placeholder='Contracts group name' />
 			
 				<Input type='text' label='Contracts type' ref='contractsType' defaultValue={obj.contractsType} placeholder='Contracts type' />
+			
+				<Input type='text' label='Tenant name' ref='tenantName' defaultValue={obj.tenantName} placeholder='Tenant name' />
 			
 			</div>
 	        <div className='modal-footer'>
