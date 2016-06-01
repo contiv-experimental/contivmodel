@@ -196,10 +196,9 @@ type EndpointGroup struct {
 }
 
 type EndpointGroupLinkSets struct {
-	ConsExtContractsGrps map[string]Link `json:"ConsExtContractsGrps,omitempty"`
-	Policies             map[string]Link `json:"Policies,omitempty"`
-	ProvExtContractsGrps map[string]Link `json:"ProvExtContractsGrps,omitempty"`
-	Services             map[string]Link `json:"Services,omitempty"`
+	ExtContractsGrps map[string]Link `json:"ExtContractsGrps,omitempty"`
+	Policies         map[string]Link `json:"Policies,omitempty"`
+	Services         map[string]Link `json:"Services,omitempty"`
 }
 
 type EndpointGroupLinks struct {

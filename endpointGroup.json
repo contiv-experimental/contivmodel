@@ -56,13 +56,9 @@
 				"policies": {
 					"ref": "policy"
 				},
-                                "consExtContractsGrps": {
-                                        "ref": "extContractsGrp"
-                                },
-                                "provExtContractsGrps": {
+                                "extContractsGrps": {
                                         "ref": "extContractsGrp"
                                 }
-
 			},
 			"links": {
 				"tenant": {

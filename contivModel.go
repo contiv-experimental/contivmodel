@@ -65,10 +65,9 @@ type EndpointGroup struct {
 }
 
 type EndpointGroupLinkSets struct {
-	ConsExtContractsGrps map[string]modeldb.Link `json:"ConsExtContractsGrps,omitempty"`
-	Policies             map[string]modeldb.Link `json:"Policies,omitempty"`
-	ProvExtContractsGrps map[string]modeldb.Link `json:"ProvExtContractsGrps,omitempty"`
-	Services             map[string]modeldb.Link `json:"Services,omitempty"`
+	ExtContractsGrps map[string]modeldb.Link `json:"ExtContractsGrps,omitempty"`
+	Policies         map[string]modeldb.Link `json:"Policies,omitempty"`
+	Services         map[string]modeldb.Link `json:"Services,omitempty"`
 }
 
 type EndpointGroupLinks struct {
