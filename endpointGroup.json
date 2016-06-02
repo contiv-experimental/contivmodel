@@ -35,19 +35,12 @@
 					"Title": "Policies",
 					"ShowSummary": true
 				},
-				"consExtContractsGrps": {
+				"extContractsGrps": {
                                         "type": "array",
                                         "items": "string",
-                                        "Title": "Consumed external contracts",
-                                        "ShowSummary": true
-                                },
-                                "provExtContractsGrps": {
-                                        "type": "array",
-                                        "items": "string",
-                                        "Title": "Provided external contracts",
+                                        "Title": "External contracts",
                                         "ShowSummary": true
                                 }
-
 			},
 			"link-sets": {
 				"services": {

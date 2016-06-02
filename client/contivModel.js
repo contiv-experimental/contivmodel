@@ -135,15 +135,13 @@ var EndpointGroupSummaryView = React.createClass({
 					<tr key={ endpointGroup.key } className="info">
 						
 						 
-						<td>{ endpointGroup.consExtContractsGrps }</td>
+						<td>{ endpointGroup.extContractsGrps }</td>
 						 
 						<td>{ endpointGroup.groupName }</td>
 						 
 						<td>{ endpointGroup.networkName }</td>
 						 
 						<td>{ endpointGroup.policies }</td>
-						 
-						<td>{ endpointGroup.provExtContractsGrps }</td>
 						 
 					</tr>
 				</ModalTrigger>
@@ -157,11 +155,10 @@ var EndpointGroupSummaryView = React.createClass({
 					<tr>
 					
 					 
-						<th> Consumed external contracts </th>  
+						<th> External contracts </th>  
 						<th> Group name </th>  
 						<th> Network </th>  
 						<th> Policies </th>  
-						<th> Provided external contracts </th>  
 					</tr>
 				</thead>
 				<tbody>
@@ -181,15 +178,13 @@ var EndpointGroupModalView = React.createClass({
 	        <div className='modal-body' style={ {margin: '5%',} }>
 			
 			
-				<Input type='text' label='Consumed external contracts' ref='consExtContractsGrps' defaultValue={obj.consExtContractsGrps} placeholder='Consumed external contracts' />
+				<Input type='text' label='External contracts' ref='extContractsGrps' defaultValue={obj.extContractsGrps} placeholder='External contracts' />
 			
 				<Input type='text' label='Group name' ref='groupName' defaultValue={obj.groupName} placeholder='Group name' />
 			
 				<Input type='text' label='Network' ref='networkName' defaultValue={obj.networkName} placeholder='Network' />
 			
 				<Input type='text' label='Policies' ref='policies' defaultValue={obj.policies} placeholder='Policies' />
-			
-				<Input type='text' label='Provided external contracts' ref='provExtContractsGrps' defaultValue={obj.provExtContractsGrps} placeholder='Provided external contracts' />
 			
 				<Input type='text' label='Tenant' ref='tenantName' defaultValue={obj.tenantName} placeholder='Tenant' />
 			

@@ -52,12 +52,11 @@ type EndpointGroup struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
 
-	ConsExtContractsGrps []string `json:"consExtContractsGrps,omitempty"`
-	GroupName            string   `json:"groupName,omitempty"`   // Group name
-	NetworkName          string   `json:"networkName,omitempty"` // Network
-	Policies             []string `json:"policies,omitempty"`
-	ProvExtContractsGrps []string `json:"provExtContractsGrps,omitempty"`
-	TenantName           string   `json:"tenantName,omitempty"` // Tenant
+	ExtContractsGrps []string `json:"extContractsGrps,omitempty"`
+	GroupName        string   `json:"groupName,omitempty"`   // Group name
+	NetworkName      string   `json:"networkName,omitempty"` // Network
+	Policies         []string `json:"policies,omitempty"`
+	TenantName       string   `json:"tenantName,omitempty"` // Tenant
 
 	// add link-sets and links
 	LinkSets EndpointGroupLinkSets `json:"link-sets,omitempty"`

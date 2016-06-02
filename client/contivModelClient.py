@@ -145,11 +145,10 @@ class objmodelClient:
 	    postUrl = self.baseUrl + '/api/endpointGroups/' + obj.tenantName + ":" + obj.groupName  + '/'
 
 	    jdata = json.dumps({ 
-			"consExtContractsGrps": obj.consExtContractsGrps, 
+			"extContractsGrps": obj.extContractsGrps, 
 			"groupName": obj.groupName, 
 			"networkName": obj.networkName, 
 			"policies": obj.policies, 
-			"provExtContractsGrps": obj.provExtContractsGrps, 
 			"tenantName": obj.tenantName, 
 	    })
 
