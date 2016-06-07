@@ -7,16 +7,20 @@
                         "key": [ "tenantName", "contractsGroupName" ],
                         "properties": {
                                 "tenantName": {
-                                        "type": "string",
-                                        "title": "Tenant name",
-                                        "description": "Tenant name",
-                                        "showSummary": true
+					"type": "string",
+					"title": "Tenant name",
+					"description": "Tenant name",
+					"length": 64,
+					"format": "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$",
+					"showSummary": true
                                 },
                                 "contractsGroupName": {
-                                        "type": "string",
-                                        "description": "Contracts group name",
-                                        "title": "Contracts group name",
-                                        "showSummary": true
+					"type": "string",
+					"description": "Contracts group name",
+					"length": 64,
+					"format": "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\\\-]*[a-zA-Z0-9])\\\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\\\-]*[A-Za-z0-9])$",
+					"title": "Contracts group name",
+					"showSummary": true
                                 },
                                 "contractsType": {
                                         "type": "string",

@@ -1645,6 +1645,24 @@ func ValidateExtContractsGroup(obj *ExtContractsGroup) error {
 
 	// Validate each field
 
+	if len(obj.ContractsGroupName) > 64 {
+		return errors.New("contractsGroupName string too long")
+	}
+
+	contractsGroupNameMatch := regexp.MustCompile("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$")
+	if contractsGroupNameMatch.MatchString(obj.ContractsGroupName) == false {
+		return errors.New("contractsGroupName string invalid format")
+	}
+
+	if len(obj.TenantName) > 64 {
+		return errors.New("tenantName string too long")
+	}
+
+	tenantNameMatch := regexp.MustCompile("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$")
+	if tenantNameMatch.MatchString(obj.TenantName) == false {
+		return errors.New("tenantName string invalid format")
+	}
+
 	return nil
 }
 
