@@ -63,6 +63,9 @@
 				},
 				"appProfile": {
 					"ref": "appProfile"
+				},
+				"netProfile": {
+					"ref": "netProfile"
 				}
 			}
 		}

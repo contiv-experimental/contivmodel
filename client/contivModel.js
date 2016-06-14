@@ -362,6 +362,79 @@ var GlobalModalView = React.createClass({
 
 module.exports.GlobalSummaryView = GlobalSummaryView
 module.exports.GlobalModalView = GlobalModalView
+var NetProfileSummaryView = React.createClass({
+  	render: function() {
+		var self = this
+
+		// Walk thru all objects
+		var netProfileListView = self.props.netProfiles.map(function(netProfile){
+			return (
+				<ModalTrigger modal={<NetProfileModalView netProfile={ netProfile }/>}>
+					<tr key={ netProfile.key } className="info">
+						
+						 
+						<td>{ netProfile.DSCP }</td>
+						 
+						<td>{ netProfile.bandwidth }</td>
+						 
+						<td>{ netProfile.profileName }</td>
+						 
+						<td>{ netProfile.tenantName }</td>
+						
+					</tr>
+				</ModalTrigger>
+			);
+		});
+
+		return (
+        <div>
+			<Table hover>
+				<thead>
+					<tr>
+					
+					 
+						<th> DSCP </th>  
+						<th> Allocated bandwidth </th>  
+						<th> Network profile name </th>  
+						<th> Network profile name </th> 
+					</tr>
+				</thead>
+				<tbody>
+            		{ netProfileListView }
+				</tbody>
+			</Table>
+        </div>
+    	);
+	}
+});
+
+var NetProfileModalView = React.createClass({
+	render() {
+		var obj = this.props.netProfile
+	    return (
+	      <Modal {...this.props} bsStyle='primary' bsSize='large' title='NetProfile' animation={false}>
+	        <div className='modal-body' style={ {margin: '5%',} }>
+			
+			
+				<Input type='text' label='DSCP' ref='DSCP' defaultValue={obj.DSCP} placeholder='DSCP' />
+			
+				<Input type='text' label='Allocated bandwidth' ref='bandwidth' defaultValue={obj.bandwidth} placeholder='Allocated bandwidth' />
+			
+				<Input type='text' label='Network profile name' ref='profileName' defaultValue={obj.profileName} placeholder='Network profile name' />
+			
+				<Input type='text' label='Network profile name' ref='tenantName' defaultValue={obj.tenantName} placeholder='Network profile name' />
+			
+			</div>
+	        <div className='modal-footer'>
+				<Button onClick={this.props.onRequestHide}>Close</Button>
+	        </div>
+	      </Modal>
+	    );
+  	}
+});
+
+module.exports.NetProfileSummaryView = NetProfileSummaryView
+module.exports.NetProfileModalView = NetProfileModalView
 var NetworkSummaryView = React.createClass({
   	render: function() {
 		var self = this
