@@ -3,9 +3,10 @@
     "objects":  [
           {
             "name": "netProfile",
+	    "version": "v1",
             "type": "object",
             "key":  ["tenantName",  "profileName"],
-            "properties": {
+	    "cfgProperties": {
                     "profileName":  {
                             "type": "string",
                             "title":  "Network profile name",

@@ -169,6 +169,7 @@ class objmodelClient:
 	    jdata = json.dumps({ 
 			"extContractsGrps": obj.extContractsGrps, 
 			"groupName": obj.groupName, 
+			"netProfile": obj.netProfile, 
 			"networkName": obj.networkName, 
 			"policies": obj.policies, 
 			"tenantName": obj.tenantName, 
@@ -287,7 +288,7 @@ class objmodelClient:
 
 	# Create netProfile
 	def createNetProfile(self, obj):
-	    postUrl = self.baseUrl + '/api/netProfiles/' + obj.tenantName + ":" + obj.profileName  + '/'
+	    postUrl = self.baseUrl + '/api/v1/netProfiles/' + obj.tenantName + ":" + obj.profileName  + '/'
 
 	    jdata = json.dumps({ 
 			"DSCP": obj.DSCP, 
@@ -305,7 +306,7 @@ class objmodelClient:
 	# Delete netProfile
 	def deleteNetProfile(self, tenantName, profileName):
 	    # Delete NetProfile
-	    deleteUrl = self.baseUrl + '/api/netProfiles/' + tenantName + ":" + profileName  + '/'
+	    deleteUrl = self.baseUrl + '/api/v1/netProfiles/' + tenantName + ":" + profileName  + '/'
 	    response = httpDelete(deleteUrl)
 
 	    if response == "Error":
@@ -314,7 +315,7 @@ class objmodelClient:
 	# List all netProfile objects
 	def listNetProfile(self):
 	    # Get a list of netProfile objects
-	    retDate = urllib2.urlopen(self.baseUrl + '/api/netProfiles/')
+	    retDate = urllib2.urlopen(self.baseUrl + '/api/v1/netProfiles/')
 	    if retData == "Error":
 	        errorExit("list NetProfile failed")
 

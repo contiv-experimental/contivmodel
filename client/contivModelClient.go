@@ -214,6 +214,7 @@ type EndpointGroup struct {
 
 	ExtContractsGrps []string `json:"extContractsGrps,omitempty"`
 	GroupName        string   `json:"groupName,omitempty"`   // Group name
+	NetProfile       string   `json:"netProfile,omitempty"`  // Network profile name
 	NetworkName      string   `json:"networkName,omitempty"` // Network
 	Policies         []string `json:"policies,omitempty"`
 	TenantName       string   `json:"tenantName,omitempty"` // Tenant
@@ -299,6 +300,32 @@ type GlobalInspect struct {
 	Config Global
 
 	Oper GlobalOper
+}
+
+type NetProfile struct {
+	// every object has a key
+	Key string `json:"key,omitempty"`
+
+	DSCP        int    `json:"DSCP,omitempty"`        // DSCP
+	Bandwidth   string `json:"bandwidth,omitempty"`   // Allocated bandwidth
+	ProfileName string `json:"profileName,omitempty"` // Network profile name
+	TenantName  string `json:"tenantName,omitempty"`  // Network profile name
+
+	// add link-sets and links
+	LinkSets NetProfileLinkSets `json:"link-sets,omitempty"`
+	Links    NetProfileLinks    `json:"links,omitempty"`
+}
+
+type NetProfileLinkSets struct {
+	EndpointGroups map[string]Link `json:"EndpointGroups,omitempty"`
+}
+
+type NetProfileLinks struct {
+	Tenant Link `json:"Tenant,omitempty"`
+}
+
+type NetProfileInspect struct {
+	Config NetProfile
 }
 
 type Network struct {
@@ -1038,7 +1065,7 @@ func (c *ContivClient) GlobalInspect(name string) (*GlobalInspect, error) {
 func (c *ContivClient) NetProfilePost(obj *NetProfile) error {
 	// build key and URL
 	keyStr := obj.TenantName + ":" + obj.ProfileName
-	url := c.baseURL + "/api/netProfiles/" + keyStr + "/"
+	url := c.baseURL + "/api/v1/netProfiles/" + keyStr + "/"
 
 	// http post the object
 	err := httpPost(url, obj)
@@ -1053,7 +1080,7 @@ func (c *ContivClient) NetProfilePost(obj *NetProfile) error {
 // NetProfileList lists all netProfile objects
 func (c *ContivClient) NetProfileList() (*[]*NetProfile, error) {
 	// build key and URL
-	url := c.baseURL + "/api/netProfiles/"
+	url := c.baseURL + "/api/v1/netProfiles/"
 
 	// http get the object
 	var objList []*NetProfile
@@ -1070,10 +1097,27 @@ func (c *ContivClient) NetProfileList() (*[]*NetProfile, error) {
 func (c *ContivClient) NetProfileGet(tenantName string, profileName string) (*NetProfile, error) {
 	// build key and URL
 	keyStr := tenantName + ":" + profileName
-	url := c.baseURL + "/api/netProfiles/" + keyStr + "/"
+	url := c.baseURL + "/api/v1/netProfiles/" + keyStr + "/"
 
 	// http get the object
 	var obj NetProfile
+	err := httpGet(url, &obj)
+	if err != nil {
+		log.Debugf("Error getting netProfile %+v. Err: %v", keyStr, err)
+		return nil, err
+	}
+
+	return &obj, nil
+}
+
+// NetProfileInspect gets the netProfileInspect object
+func (c *ContivClient) NetProfileInspect(tenantName string, profileName string) (*NetProfileInspect, error) {
+	// build key and URL
+	keyStr := tenantName + ":" + profileName
+	url := c.baseURL + "/api/v1/inspect/netProfiles/" + keyStr + "/"
+
+	// http get the object
+	var obj NetProfileInspect
 	err := httpGet(url, &obj)
 	if err != nil {
 		log.Debugf("Error getting netProfile %+v. Err: %v", keyStr, err)
@@ -1087,7 +1131,7 @@ func (c *ContivClient) NetProfileGet(tenantName string, profileName string) (*Ne
 func (c *ContivClient) NetProfileDelete(tenantName string, profileName string) error {
 	// build key and URL
 	keyStr := tenantName + ":" + profileName
-	url := c.baseURL + "/api/netProfiles/" + keyStr + "/"
+	url := c.baseURL + "/api/v1/netProfiles/" + keyStr + "/"
 
 	// http get the object
 	err := httpDelete(url)

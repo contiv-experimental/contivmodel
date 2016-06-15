@@ -88,6 +88,7 @@ type EndpointGroup struct {
 
 	ExtContractsGrps []string `json:"extContractsGrps,omitempty"`
 	GroupName        string   `json:"groupName,omitempty"`   // Group name
+	NetProfile       string   `json:"netProfile,omitempty"`  // Network profile name
 	NetworkName      string   `json:"networkName,omitempty"` // Network
 	Policies         []string `json:"policies,omitempty"`
 	TenantName       string   `json:"tenantName,omitempty"` // Tenant
@@ -175,6 +176,22 @@ type GlobalInspect struct {
 	Config Global
 
 	Oper GlobalOper
+
+	// add link-sets and links
+	LinkSets NetProfileLinkSets `json:"link-sets,omitempty"`
+	Links    NetProfileLinks    `json:"links,omitempty"`
+}
+
+type NetProfileLinkSets struct {
+	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
+}
+
+type NetProfileLinks struct {
+	Tenant modeldb.Link `json:"Tenant,omitempty"`
+}
+
+type NetProfileInspect struct {
+	Config NetProfile
 }
 type Network struct {
 	// every object has a key
@@ -733,14 +750,16 @@ func AddRoutes(router *mux.Router) {
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectGlobal))
 
 	// Register netProfile
-	route = "/api/netProfiles/{key}/"
-	listRoute = "/api/netProfiles/"
+	route = "/api/v1/netProfiles/{key}/"
+	listRoute = "/api/v1/netProfiles/"
+	inspectRoute = "/api/v1/inspect/netProfiles/{key}/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListNetProfiles))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetNetProfile))
 	router.Path(route).Methods("POST").HandlerFunc(makeHttpHandler(httpCreateNetProfile))
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateNetProfile))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteNetProfile))
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectNetProfile))
 
 	// Register network
 	route = "/api/v1/networks/{key}/"
@@ -1767,6 +1786,10 @@ func ValidateEndpointGroup(obj *EndpointGroup) error {
 		return errors.New("groupName string invalid format")
 	}
 
+	if len(obj.NetProfile) > 64 {
+		return errors.New("netProfile string too long")
+	}
+
 	if len(obj.NetworkName) > 64 {
 		return errors.New("networkName string too long")
 	}
@@ -2498,6 +2521,24 @@ func httpGetNetProfile(w http.ResponseWriter, r *http.Request, vars map[string]s
 
 	// Return the obj
 	return obj, nil
+}
+
+// GET Oper REST call
+func httpInspectNetProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj NetProfileInspect
+	log.Debugf("Received httpInspectNetProfile: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.netProfiles[key]
+	if objConfig == nil {
+		log.Errorf("netProfile %s not found", key)
+		return nil, errors.New("netProfile not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // CREATE REST call
