@@ -321,6 +321,9 @@ class objmodelClient:
 
 	    return json.loads(retData)
 
+
+
+
 	# Create network
 	def createNetwork(self, obj):
 	    postUrl = self.baseUrl + '/api/v1/networks/' + obj.tenantName + ":" + obj.networkName  + '/'

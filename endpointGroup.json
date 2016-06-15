@@ -37,11 +37,11 @@
 					"ShowSummary": true
 				},
 				"extContractsGrps": {
-            "type": "array",
-            "items": "string",
-            "Title": "External contracts",
-            "ShowSummary": true
-			},
+					"type": "array",
+					"items": "string",
+					"Title": "External contracts",
+					"ShowSummary": true
+				},
 				"netProfile": {
 					"type": "string",
 					"Title": "Network profile name",
@@ -56,9 +56,9 @@
 				"policies": {
 					"ref": "policy"
 				},
-        "extContractsGrps": {
-          "ref": "extContractsGrp"
-        }
+				"extContractsGrps": {
+					"ref": "extContractsGrp"
+				}
 			},
 			"links": {
 				"tenant": {
