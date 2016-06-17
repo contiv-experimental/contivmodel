@@ -15,6 +15,7 @@ import (
 )
 
 type HttpApiFunc func(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error)
+
 type AppProfile struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -36,6 +37,10 @@ type AppProfileLinks struct {
 	Tenant modeldb.Link `json:"Tenant,omitempty"`
 }
 
+type AppProfileInspect struct {
+	Config AppProfile
+}
+
 type Bgp struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -46,6 +51,35 @@ type Bgp struct {
 	NeighborAs string `json:"neighbor-as,omitempty"` // AS id
 	Routerip   string `json:"routerip,omitempty"`    // Bgp router intf ip
 
+}
+
+type BgpInspect struct {
+	Config Bgp
+}
+
+type EndpointOper struct {
+
+	// oper object key (present for oper only objects)
+	Key string `json:"key,omitempty"`
+
+	AttachUUID       string   `json:"attachUUID,omitempty"`       //
+	ContainerID      string   `json:"containerID,omitempty"`      //
+	EndpointGroupID  int      `json:"endpointGroupId,omitempty"`  //
+	EndpointGroupKey string   `json:"endpointGroupKey,omitempty"` //
+	HomingHost       string   `json:"homingHost,omitempty"`       //
+	IntfName         string   `json:"intfName,omitempty"`         //
+	IpAddress        []string `json:"ipAddress,omitempty"`
+	Labels           string   `json:"labels,omitempty"`      //
+	MacAddress       string   `json:"macAddress,omitempty"`  //
+	Name             string   `json:"name,omitempty"`        //
+	Network          string   `json:"network,omitempty"`     //
+	ServiceName      string   `json:"serviceName,omitempty"` //
+	VtepIP           string   `json:"vtepIP,omitempty"`      //
+
+}
+
+type EndpointInspect struct {
+	Oper EndpointOper
 }
 
 type EndpointGroup struct {
@@ -75,6 +109,10 @@ type EndpointGroupLinks struct {
 	Tenant     modeldb.Link `json:"Tenant,omitempty"`
 }
 
+type EndpointGroupInspect struct {
+	Config EndpointGroup
+}
+
 type ExtContractsGroup struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -92,6 +130,10 @@ type ExtContractsGroupLinkSets struct {
 	EndpointGroups map[string]modeldb.Link `json:"EndpointGroups,omitempty"`
 }
 
+type ExtContractsGroupInspect struct {
+	Config ExtContractsGroup
+}
+
 type Global struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -101,6 +143,21 @@ type Global struct {
 	Vlans            string `json:"vlans,omitempty"`            // Allowed vlan range
 	Vxlans           string `json:"vxlans,omitempty"`           // Allwed vxlan range
 
+}
+
+type GlobalOper struct {
+	DefaultNetwork  string `json:"defaultNetwork,omitempty"`  //
+	FreeVXLANsStart int    `json:"freeVXLANsStart,omitempty"` //
+	NumNetworks     int    `json:"numNetworks,omitempty"`     //
+	VlansInUse      string `json:"vlansInUse,omitempty"`      //
+	VxlansInUse     string `json:"vxlansInUse,omitempty"`     //
+
+}
+
+type GlobalInspect struct {
+	Config Global
+
+	Oper GlobalOper
 }
 
 type Network struct {
@@ -132,6 +189,22 @@ type NetworkLinks struct {
 	Tenant modeldb.Link `json:"Tenant,omitempty"`
 }
 
+type NetworkOper struct {
+	AllocatedAddressesCount int    `json:"allocatedAddressesCount,omitempty"` // Vlan/Vxlan Tag
+	AllocatedIPAddresses    string `json:"allocatedIPAddresses,omitempty"`    // allocated IP addresses
+	DnsServerIP             string `json:"dnsServerIP,omitempty"`             // dns IP for the network
+	ExternalPktTag          int    `json:"externalPktTag,omitempty"`          // external packet tag
+	NumEndpoints            int    `json:"numEndpoints,omitempty"`            // external packet tag
+	PktTag                  int    `json:"pktTag,omitempty"`                  // internal packet tag
+
+}
+
+type NetworkInspect struct {
+	Config Network
+
+	Oper NetworkOper
+}
+
 type Policy struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -151,6 +224,10 @@ type PolicyLinkSets struct {
 
 type PolicyLinks struct {
 	Tenant modeldb.Link `json:"Tenant,omitempty"`
+}
+
+type PolicyInspect struct {
+	Config Policy
 }
 
 type Rule struct {
@@ -180,6 +257,10 @@ type RuleLinkSets struct {
 	Policies map[string]modeldb.Link `json:"Policies,omitempty"`
 }
 
+type RuleInspect struct {
+	Config Rule
+}
+
 type ServiceLB struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -197,6 +278,10 @@ type ServiceLB struct {
 type ServiceLBLinks struct {
 	Network modeldb.Link `json:"Network,omitempty"`
 	Tenant  modeldb.Link `json:"Tenant,omitempty"`
+}
+
+type ServiceLBInspect struct {
+	Config ServiceLB
 }
 
 type Tenant struct {
@@ -218,6 +303,10 @@ type TenantLinkSets struct {
 	Servicelbs     map[string]modeldb.Link `json:"Servicelbs,omitempty"`
 	VolumeProfiles map[string]modeldb.Link `json:"VolumeProfiles,omitempty"`
 	Volumes        map[string]modeldb.Link `json:"Volumes,omitempty"`
+}
+
+type TenantInspect struct {
+	Config Tenant
 }
 
 type Volume struct {
@@ -244,6 +333,10 @@ type VolumeLinks struct {
 	Tenant modeldb.Link `json:"Tenant,omitempty"`
 }
 
+type VolumeInspect struct {
+	Config Volume
+}
+
 type VolumeProfile struct {
 	// every object has a key
 	Key string `json:"key,omitempty"`
@@ -268,9 +361,13 @@ type VolumeProfileLinks struct {
 	Tenant modeldb.Link `json:"Tenant,omitempty"`
 }
 
+type VolumeProfileInspect struct {
+	Config VolumeProfile
+}
 type Collections struct {
-	appProfiles        map[string]*AppProfile
-	Bgps               map[string]*Bgp
+	appProfiles map[string]*AppProfile
+	Bgps        map[string]*Bgp
+
 	endpointGroups     map[string]*EndpointGroup
 	extContractsGroups map[string]*ExtContractsGroup
 	globals            map[string]*Global
@@ -297,6 +394,10 @@ type BgpCallbacks interface {
 	BgpDelete(Bgp *Bgp) error
 }
 
+type EndpointCallbacks interface {
+	EndpointGetOper(endpoint *EndpointInspect) error
+}
+
 type EndpointGroupCallbacks interface {
 	EndpointGroupCreate(endpointGroup *EndpointGroup) error
 	EndpointGroupUpdate(endpointGroup, params *EndpointGroup) error
@@ -310,12 +411,16 @@ type ExtContractsGroupCallbacks interface {
 }
 
 type GlobalCallbacks interface {
+	GlobalGetOper(global *GlobalInspect) error
+
 	GlobalCreate(global *Global) error
 	GlobalUpdate(global, params *Global) error
 	GlobalDelete(global *Global) error
 }
 
 type NetworkCallbacks interface {
+	NetworkGetOper(network *NetworkInspect) error
+
 	NetworkCreate(network *Network) error
 	NetworkUpdate(network, params *Network) error
 	NetworkDelete(network *Network) error
@@ -360,6 +465,7 @@ type VolumeProfileCallbacks interface {
 type CallbackHandlers struct {
 	AppProfileCb        AppProfileCallbacks
 	BgpCb               BgpCallbacks
+	EndpointCb          EndpointCallbacks
 	EndpointGroupCb     EndpointGroupCallbacks
 	ExtContractsGroupCb ExtContractsGroupCallbacks
 	GlobalCb            GlobalCallbacks
@@ -377,6 +483,7 @@ var objCallbackHandler CallbackHandlers
 func Init() {
 	collections.appProfiles = make(map[string]*AppProfile)
 	collections.Bgps = make(map[string]*Bgp)
+
 	collections.endpointGroups = make(map[string]*EndpointGroup)
 	collections.extContractsGroups = make(map[string]*ExtContractsGroup)
 	collections.globals = make(map[string]*Global)
@@ -390,6 +497,7 @@ func Init() {
 
 	restoreAppProfile()
 	restoreBgp()
+
 	restoreEndpointGroup()
 	restoreExtContractsGroup()
 	restoreGlobal()
@@ -409,6 +517,10 @@ func RegisterAppProfileCallbacks(handler AppProfileCallbacks) {
 
 func RegisterBgpCallbacks(handler BgpCallbacks) {
 	objCallbackHandler.BgpCb = handler
+}
+
+func RegisterEndpointCallbacks(handler EndpointCallbacks) {
+	objCallbackHandler.EndpointCb = handler
 }
 
 func RegisterEndpointGroupCallbacks(handler EndpointGroupCallbacks) {
@@ -488,11 +600,11 @@ func writeJSON(w http.ResponseWriter, code int, v interface{}) error {
 
 // Add all routes for REST handlers
 func AddRoutes(router *mux.Router) {
-	var route, listRoute string
+	var route, listRoute, inspectRoute string
 
 	// Register appProfile
-	route = "/api/appProfiles/{key}/"
-	listRoute = "/api/appProfiles/"
+	route = "/api/v1/appProfiles/{key}/"
+	listRoute = "/api/v1/appProfiles/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListAppProfiles))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetAppProfile))
@@ -500,9 +612,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateAppProfile))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteAppProfile))
 
+	inspectRoute = "/api/v1/inspect/appProfiles/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectAppProfile))
+
 	// Register Bgp
-	route = "/api/Bgps/{key}/"
-	listRoute = "/api/Bgps/"
+	route = "/api/v1/Bgps/{key}/"
+	listRoute = "/api/v1/Bgps/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListBgps))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetBgp))
@@ -510,9 +625,15 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateBgp))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteBgp))
 
+	inspectRoute = "/api/v1/inspect/Bgps/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectBgp))
+
+	inspectRoute = "/api/v1/inspect/endpoints/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectEndpoint))
+
 	// Register endpointGroup
-	route = "/api/endpointGroups/{key}/"
-	listRoute = "/api/endpointGroups/"
+	route = "/api/v1/endpointGroups/{key}/"
+	listRoute = "/api/v1/endpointGroups/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListEndpointGroups))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetEndpointGroup))
@@ -520,9 +641,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateEndpointGroup))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteEndpointGroup))
 
+	inspectRoute = "/api/v1/inspect/endpointGroups/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectEndpointGroup))
+
 	// Register extContractsGroup
-	route = "/api/extContractsGroups/{key}/"
-	listRoute = "/api/extContractsGroups/"
+	route = "/api/v1/extContractsGroups/{key}/"
+	listRoute = "/api/v1/extContractsGroups/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListExtContractsGroups))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetExtContractsGroup))
@@ -530,9 +654,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateExtContractsGroup))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteExtContractsGroup))
 
+	inspectRoute = "/api/v1/inspect/extContractsGroups/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectExtContractsGroup))
+
 	// Register global
-	route = "/api/globals/{key}/"
-	listRoute = "/api/globals/"
+	route = "/api/v1/globals/{key}/"
+	listRoute = "/api/v1/globals/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListGlobals))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetGlobal))
@@ -540,9 +667,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateGlobal))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteGlobal))
 
+	inspectRoute = "/api/v1/inspect/globals/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectGlobal))
+
 	// Register network
-	route = "/api/networks/{key}/"
-	listRoute = "/api/networks/"
+	route = "/api/v1/networks/{key}/"
+	listRoute = "/api/v1/networks/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListNetworks))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetNetwork))
@@ -550,9 +680,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateNetwork))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteNetwork))
 
+	inspectRoute = "/api/v1/inspect/networks/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectNetwork))
+
 	// Register policy
-	route = "/api/policys/{key}/"
-	listRoute = "/api/policys/"
+	route = "/api/v1/policys/{key}/"
+	listRoute = "/api/v1/policys/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListPolicys))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetPolicy))
@@ -560,9 +693,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreatePolicy))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeletePolicy))
 
+	inspectRoute = "/api/v1/inspect/policys/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectPolicy))
+
 	// Register rule
-	route = "/api/rules/{key}/"
-	listRoute = "/api/rules/"
+	route = "/api/v1/rules/{key}/"
+	listRoute = "/api/v1/rules/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListRules))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetRule))
@@ -570,9 +706,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateRule))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteRule))
 
+	inspectRoute = "/api/v1/inspect/rules/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectRule))
+
 	// Register serviceLB
-	route = "/api/serviceLBs/{key}/"
-	listRoute = "/api/serviceLBs/"
+	route = "/api/v1/serviceLBs/{key}/"
+	listRoute = "/api/v1/serviceLBs/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListServiceLBs))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetServiceLB))
@@ -580,9 +719,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateServiceLB))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteServiceLB))
 
+	inspectRoute = "/api/v1/inspect/serviceLBs/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectServiceLB))
+
 	// Register tenant
-	route = "/api/tenants/{key}/"
-	listRoute = "/api/tenants/"
+	route = "/api/v1/tenants/{key}/"
+	listRoute = "/api/v1/tenants/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListTenants))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetTenant))
@@ -590,9 +732,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateTenant))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteTenant))
 
+	inspectRoute = "/api/v1/inspect/tenants/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectTenant))
+
 	// Register volume
-	route = "/api/volumes/{key}/"
-	listRoute = "/api/volumes/"
+	route = "/api/v1/volumes/{key}/"
+	listRoute = "/api/v1/volumes/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListVolumes))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetVolume))
@@ -600,9 +745,12 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateVolume))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteVolume))
 
+	inspectRoute = "/api/v1/inspect/volumes/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectVolume))
+
 	// Register volumeProfile
-	route = "/api/volumeProfiles/{key}/"
-	listRoute = "/api/volumeProfiles/"
+	route = "/api/v1/volumeProfiles/{key}/"
+	listRoute = "/api/v1/volumeProfiles/"
 	log.Infof("Registering %s", route)
 	router.Path(listRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpListVolumeProfiles))
 	router.Path(route).Methods("GET").HandlerFunc(makeHttpHandler(httpGetVolumeProfile))
@@ -610,6 +758,27 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateVolumeProfile))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteVolumeProfile))
 
+	inspectRoute = "/api/v1/inspect/volumeProfiles/{key}/"
+	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectVolumeProfile))
+
+}
+
+// GET Oper REST call
+func httpInspectAppProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj AppProfileInspect
+	log.Debugf("Received httpInspectAppProfile: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.appProfiles[key]
+	if objConfig == nil {
+		log.Errorf("appProfile %s not found", key)
+		return nil, errors.New("appProfile not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // LIST REST call
@@ -867,6 +1036,24 @@ func ValidateAppProfile(obj *AppProfile) error {
 	}
 
 	return nil
+}
+
+// GET Oper REST call
+func httpInspectBgp(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj BgpInspect
+	log.Debugf("Received httpInspectBgp: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.Bgps[key]
+	if objConfig == nil {
+		log.Errorf("Bgp %s not found", key)
+		return nil, errors.New("Bgp not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // LIST REST call
@@ -1143,6 +1330,58 @@ func ValidateBgp(obj *Bgp) error {
 	return nil
 }
 
+// GET Oper REST call
+func httpInspectEndpoint(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj EndpointInspect
+	log.Debugf("Received httpInspectEndpoint: %+v", vars)
+
+	obj.Oper.Key = vars["key"]
+
+	if err := GetOperEndpoint(&obj); err != nil {
+		log.Errorf("GetEndpoint error for: %+v. Err: %v", obj, err)
+		return nil, err
+	}
+
+	// Return the obj
+	return &obj, nil
+}
+
+// Get a endpointOper object
+func GetOperEndpoint(obj *EndpointInspect) error {
+	// Check if we handle this object
+	if objCallbackHandler.EndpointCb == nil {
+		log.Errorf("No callback registered for endpoint object")
+		return errors.New("Invalid object type")
+	}
+
+	// Perform callback
+	err := objCallbackHandler.EndpointCb.EndpointGetOper(obj)
+	if err != nil {
+		log.Errorf("EndpointDelete retruned error for: %+v. Err: %v", obj, err)
+		return err
+	}
+
+	return nil
+}
+
+// GET Oper REST call
+func httpInspectEndpointGroup(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj EndpointGroupInspect
+	log.Debugf("Received httpInspectEndpointGroup: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.endpointGroups[key]
+	if objConfig == nil {
+		log.Errorf("endpointGroup %s not found", key)
+		return nil, errors.New("endpointGroup not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // LIST REST call
 func httpListEndpointGroups(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpListEndpointGroups: %+v", vars)
@@ -1409,6 +1648,24 @@ func ValidateEndpointGroup(obj *EndpointGroup) error {
 	return nil
 }
 
+// GET Oper REST call
+func httpInspectExtContractsGroup(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj ExtContractsGroupInspect
+	log.Debugf("Received httpInspectExtContractsGroup: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.extContractsGroups[key]
+	if objConfig == nil {
+		log.Errorf("extContractsGroup %s not found", key)
+		return nil, errors.New("extContractsGroup not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // LIST REST call
 func httpListExtContractsGroups(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpListExtContractsGroups: %+v", vars)
@@ -1661,6 +1918,47 @@ func ValidateExtContractsGroup(obj *ExtContractsGroup) error {
 	tenantNameMatch := regexp.MustCompile("^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$")
 	if tenantNameMatch.MatchString(obj.TenantName) == false {
 		return errors.New("tenantName string invalid format")
+	}
+
+	return nil
+}
+
+// GET Oper REST call
+func httpInspectGlobal(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj GlobalInspect
+	log.Debugf("Received httpInspectGlobal: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.globals[key]
+	if objConfig == nil {
+		log.Errorf("global %s not found", key)
+		return nil, errors.New("global not found")
+	}
+	obj.Config = *objConfig
+
+	if err := GetOperGlobal(&obj); err != nil {
+		log.Errorf("GetGlobal error for: %+v. Err: %v", obj, err)
+		return nil, err
+	}
+
+	// Return the obj
+	return &obj, nil
+}
+
+// Get a globalOper object
+func GetOperGlobal(obj *GlobalInspect) error {
+	// Check if we handle this object
+	if objCallbackHandler.GlobalCb == nil {
+		log.Errorf("No callback registered for global object")
+		return errors.New("Invalid object type")
+	}
+
+	// Perform callback
+	err := objCallbackHandler.GlobalCb.GlobalGetOper(obj)
+	if err != nil {
+		log.Errorf("GlobalDelete retruned error for: %+v. Err: %v", obj, err)
+		return err
 	}
 
 	return nil
@@ -1928,6 +2226,47 @@ func ValidateGlobal(obj *Global) error {
 	vxlansMatch := regexp.MustCompile("^([0-9]{1,8}?-[0-9]{1,8}?)$")
 	if vxlansMatch.MatchString(obj.Vxlans) == false {
 		return errors.New("vxlans string invalid format")
+	}
+
+	return nil
+}
+
+// GET Oper REST call
+func httpInspectNetwork(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj NetworkInspect
+	log.Debugf("Received httpInspectNetwork: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.networks[key]
+	if objConfig == nil {
+		log.Errorf("network %s not found", key)
+		return nil, errors.New("network not found")
+	}
+	obj.Config = *objConfig
+
+	if err := GetOperNetwork(&obj); err != nil {
+		log.Errorf("GetNetwork error for: %+v. Err: %v", obj, err)
+		return nil, err
+	}
+
+	// Return the obj
+	return &obj, nil
+}
+
+// Get a networkOper object
+func GetOperNetwork(obj *NetworkInspect) error {
+	// Check if we handle this object
+	if objCallbackHandler.NetworkCb == nil {
+		log.Errorf("No callback registered for network object")
+		return errors.New("Invalid object type")
+	}
+
+	// Perform callback
+	err := objCallbackHandler.NetworkCb.NetworkGetOper(obj)
+	if err != nil {
+		log.Errorf("NetworkDelete retruned error for: %+v. Err: %v", obj, err)
+		return err
 	}
 
 	return nil
@@ -2228,6 +2567,24 @@ func ValidateNetwork(obj *Network) error {
 	return nil
 }
 
+// GET Oper REST call
+func httpInspectPolicy(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj PolicyInspect
+	log.Debugf("Received httpInspectPolicy: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.policys[key]
+	if objConfig == nil {
+		log.Errorf("policy %s not found", key)
+		return nil, errors.New("policy not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // LIST REST call
 func httpListPolicys(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpListPolicys: %+v", vars)
@@ -2483,6 +2840,24 @@ func ValidatePolicy(obj *Policy) error {
 	}
 
 	return nil
+}
+
+// GET Oper REST call
+func httpInspectRule(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj RuleInspect
+	log.Debugf("Received httpInspectRule: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.rules[key]
+	if objConfig == nil {
+		log.Errorf("rule %s not found", key)
+		return nil, errors.New("rule not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // LIST REST call
@@ -2828,6 +3203,24 @@ func ValidateRule(obj *Rule) error {
 	return nil
 }
 
+// GET Oper REST call
+func httpInspectServiceLB(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj ServiceLBInspect
+	log.Debugf("Received httpInspectServiceLB: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.serviceLBs[key]
+	if objConfig == nil {
+		log.Errorf("serviceLB %s not found", key)
+		return nil, errors.New("serviceLB not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // LIST REST call
 func httpListServiceLBs(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpListServiceLBs: %+v", vars)
@@ -3103,6 +3496,24 @@ func ValidateServiceLB(obj *ServiceLB) error {
 	return nil
 }
 
+// GET Oper REST call
+func httpInspectTenant(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj TenantInspect
+	log.Debugf("Received httpInspectTenant: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.tenants[key]
+	if objConfig == nil {
+		log.Errorf("tenant %s not found", key)
+		return nil, errors.New("tenant not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // LIST REST call
 func httpListTenants(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpListTenants: %+v", vars)
@@ -3360,6 +3771,24 @@ func ValidateTenant(obj *Tenant) error {
 	return nil
 }
 
+// GET Oper REST call
+func httpInspectVolume(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj VolumeInspect
+	log.Debugf("Received httpInspectVolume: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.volumes[key]
+	if objConfig == nil {
+		log.Errorf("volume %s not found", key)
+		return nil, errors.New("volume not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
+}
+
 // LIST REST call
 func httpListVolumes(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpListVolumes: %+v", vars)
@@ -3597,6 +4026,24 @@ func ValidateVolume(obj *Volume) error {
 	// Validate each field
 
 	return nil
+}
+
+// GET Oper REST call
+func httpInspectVolumeProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
+	var obj VolumeProfileInspect
+	log.Debugf("Received httpInspectVolumeProfile: %+v", vars)
+
+	key := vars["key"]
+
+	objConfig := collections.volumeProfiles[key]
+	if objConfig == nil {
+		log.Errorf("volumeProfile %s not found", key)
+		return nil, errors.New("volumeProfile not found")
+	}
+	obj.Config = *objConfig
+
+	// Return the obj
+	return &obj, nil
 }
 
 // LIST REST call
