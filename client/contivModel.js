@@ -381,24 +381,24 @@ var GlobalModalView = React.createClass({
 
 module.exports.GlobalSummaryView = GlobalSummaryView
 module.exports.GlobalModalView = GlobalModalView
-var NetProfileSummaryView = React.createClass({
+var NetprofileSummaryView = React.createClass({
   	render: function() {
 		var self = this
 
 		// Walk thru all objects
-		var netProfileListView = self.props.netProfiles.map(function(netProfile){
+		var netprofileListView = self.props.netprofiles.map(function(netprofile){
 			return (
-				<ModalTrigger modal={<NetProfileModalView netProfile={ netProfile }/>}>
-					<tr key={ netProfile.key } className="info">
+				<ModalTrigger modal={<NetprofileModalView netprofile={ netprofile }/>}>
+					<tr key={ netprofile.key } className="info">
 						
 						 
-						<td>{ netProfile.DSCP }</td>
+						<td>{ netprofile.DSCP }</td>
 						 
-						<td>{ netProfile.bandwidth }</td>
+						<td>{ netprofile.bandwidth }</td>
 						 
-						<td>{ netProfile.profileName }</td>
+						<td>{ netprofile.profileName }</td>
 						 
-						<td>{ netProfile.tenantName }</td>
+						<td>{ netprofile.tenantName }</td>
 						
 					</tr>
 				</ModalTrigger>
@@ -415,11 +415,11 @@ var NetProfileSummaryView = React.createClass({
 						<th> DSCP </th>  
 						<th> Allocated bandwidth </th>  
 						<th> Network profile name </th>  
-						<th> Network profile name </th> 
+						<th> Tenant name </th> 
 					</tr>
 				</thead>
 				<tbody>
-            		{ netProfileListView }
+            		{ netprofileListView }
 				</tbody>
 			</Table>
         </div>
@@ -427,11 +427,11 @@ var NetProfileSummaryView = React.createClass({
 	}
 });
 
-var NetProfileModalView = React.createClass({
+var NetprofileModalView = React.createClass({
 	render() {
-		var obj = this.props.netProfile
+		var obj = this.props.netprofile
 	    return (
-	      <Modal {...this.props} bsStyle='primary' bsSize='large' title='NetProfile' animation={false}>
+	      <Modal {...this.props} bsStyle='primary' bsSize='large' title='Netprofile' animation={false}>
 	        <div className='modal-body' style={ {margin: '5%',} }>
 			
 			
@@ -441,7 +441,7 @@ var NetProfileModalView = React.createClass({
 			
 				<Input type='text' label='Network profile name' ref='profileName' defaultValue={obj.profileName} placeholder='Network profile name' />
 			
-				<Input type='text' label='Network profile name' ref='tenantName' defaultValue={obj.tenantName} placeholder='Network profile name' />
+				<Input type='text' label='Tenant name' ref='tenantName' defaultValue={obj.tenantName} placeholder='Tenant name' />
 			
 			</div>
 	        <div className='modal-footer'>
@@ -452,8 +452,8 @@ var NetProfileModalView = React.createClass({
   	}
 });
 
-module.exports.NetProfileSummaryView = NetProfileSummaryView
-module.exports.NetProfileModalView = NetProfileModalView
+module.exports.NetprofileSummaryView = NetprofileSummaryView
+module.exports.NetprofileModalView = NetprofileModalView
 var NetworkSummaryView = React.createClass({
   	render: function() {
 		var self = this

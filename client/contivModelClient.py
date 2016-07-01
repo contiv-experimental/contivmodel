@@ -286,9 +286,9 @@ class objmodelClient:
 	    return json.loads(retData)
 
 
-	# Create netProfile
-	def createNetProfile(self, obj):
-	    postUrl = self.baseUrl + '/api/v1/netProfiles/' + obj.tenantName + ":" + obj.profileName  + '/'
+	# Create netprofile
+	def createNetprofile(self, obj):
+	    postUrl = self.baseUrl + '/api/v1/netprofiles/' + obj.tenantName + ":" + obj.profileName  + '/'
 
 	    jdata = json.dumps({ 
 			"DSCP": obj.DSCP, 
@@ -301,23 +301,23 @@ class objmodelClient:
 	    response = httpPost(postUrl, jdata)
 
 	    if response == "Error":
-	        errorExit("NetProfile create failure")
+	        errorExit("Netprofile create failure")
 
-	# Delete netProfile
-	def deleteNetProfile(self, tenantName, profileName):
-	    # Delete NetProfile
-	    deleteUrl = self.baseUrl + '/api/v1/netProfiles/' + tenantName + ":" + profileName  + '/'
+	# Delete netprofile
+	def deleteNetprofile(self, tenantName, profileName):
+	    # Delete Netprofile
+	    deleteUrl = self.baseUrl + '/api/v1/netprofiles/' + tenantName + ":" + profileName  + '/'
 	    response = httpDelete(deleteUrl)
 
 	    if response == "Error":
-	        errorExit("NetProfile create failure")
+	        errorExit("Netprofile create failure")
 
-	# List all netProfile objects
-	def listNetProfile(self):
-	    # Get a list of netProfile objects
-	    retDate = urllib2.urlopen(self.baseUrl + '/api/v1/netProfiles/')
+	# List all netprofile objects
+	def listNetprofile(self):
+	    # Get a list of netprofile objects
+	    retDate = urllib2.urlopen(self.baseUrl + '/api/v1/netprofiles/')
 	    if retData == "Error":
-	        errorExit("list NetProfile failed")
+	        errorExit("list Netprofile failed")
 
 	    return json.loads(retData)
 

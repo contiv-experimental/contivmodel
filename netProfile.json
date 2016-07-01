@@ -2,7 +2,7 @@
     "name": "contivModel",
     "objects":  [
           {
-            "name": "netProfile",
+            "name": "netprofile",
 	    "version": "v1",
             "type": "object",
             "key":  ["tenantName",  "profileName"],
@@ -16,13 +16,13 @@
                       "tenantName": {
                               "type": "string",
                               "description":  "Tenant name",
-                              "title":  "Network profile name",
+                              "title":  "Tenant name",
                               "ShowSummary":  true
                       },
                       "bandwidth":  {
                               "type": "string",
                               "length": 64,
-                              "format": "^[1-9][0-9]* (k|m|g)bps$",
+                              "format": "^((([1-9][0-9]*((k|K|m|M|g|G)(bps|BPS)))|(K|k|M|m|G|g)|(K|k|M|m|G|g)(b))|(([1-9][0-9]* ((k|K|m|M|g|G)(bps|BPS)))|(K|k|M|m|G|g)|(K|k|M|m|G|g)(b)))?$",
                               "title":  "Allocated bandwidth",
                               "description":  "Amount of allocated outbound bandwidth",
                               "ShowSummary":  true
