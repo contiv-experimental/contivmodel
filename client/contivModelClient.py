@@ -275,6 +275,8 @@ class objmodelClient:
 
 	    return json.loads(retData)
 
+
+
 	# Inspect global
 	def createGlobal(self, obj):
 	    postUrl = self.baseUrl + '/api/v1/inspect/global/' + obj.name  + '/'
@@ -505,7 +507,6 @@ class objmodelClient:
 	    postUrl = self.baseUrl + '/api/v1/inspect/serviceLB/' + obj.tenantName + ":" + obj.serviceName  + '/'
 
 	    retDate = urllib2.urlopen(postUrl)
-	    
 	    if retData == "Error":
 	        errorExit("list ServiceLB failed")
 
@@ -624,6 +625,5 @@ class objmodelClient:
 	        errorExit("list VolumeProfile failed")
 
 	    return json.loads(retData)
-
 
 

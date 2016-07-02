@@ -187,18 +187,7 @@ var EndpointGroupSummaryView = React.createClass({
 				<ModalTrigger modal={<EndpointGroupModalView endpointGroup={ endpointGroup }/>}>
 					<tr key={ endpointGroup.key } className="info">
 						
-						     
-						 
-						<td>{ endpointGroup.extContractsGrps }</td>
-						 
-						<td>{ endpointGroup.groupName }</td>
-						 
-						<td>{ endpointGroup.netProfile }</td>
-						 
-						<td>{ endpointGroup.networkName }</td>
-						 
-						<td>{ endpointGroup.policies }</td>
-						 
+						      
 					</tr>
 				</ModalTrigger>
 			);
@@ -210,13 +199,7 @@ var EndpointGroupSummaryView = React.createClass({
 				<thead>
 					<tr>
 					
-					     
-					 
-						<th> External contracts </th>  
-						<th> Group name </th>  
-						<th> Network profile name </th>  
-						<th> Network </th>  
-						<th> Policies </th>  
+					      
 					</tr>
 				</thead>
 				<tbody>
@@ -391,15 +374,7 @@ var NetprofileSummaryView = React.createClass({
 				<ModalTrigger modal={<NetprofileModalView netprofile={ netprofile }/>}>
 					<tr key={ netprofile.key } className="info">
 						
-						 
-						<td>{ netprofile.DSCP }</td>
-						 
-						<td>{ netprofile.bandwidth }</td>
-						 
-						<td>{ netprofile.profileName }</td>
-						 
-						<td>{ netprofile.tenantName }</td>
-						
+						    
 					</tr>
 				</ModalTrigger>
 			);
@@ -411,11 +386,7 @@ var NetprofileSummaryView = React.createClass({
 				<thead>
 					<tr>
 					
-					 
-						<th> DSCP </th>  
-						<th> Allocated bandwidth </th>  
-						<th> Network profile name </th>  
-						<th> Tenant name </th> 
+					    
 					</tr>
 				</thead>
 				<tbody>

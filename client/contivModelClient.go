@@ -279,21 +279,7 @@ type GlobalOper struct {
 	NumNetworks     int    `json:"numNetworks,omitempty"`     //
 	VlansInUse      string `json:"vlansInUse,omitempty"`      //
 	VxlansInUse     string `json:"vxlansInUse,omitempty"`     //
-}
 
-type GlobalInspect struct {
-	Config Global
-	Oper GlobalOper
-}
-
-type NetProfile struct {
-	// every object has a key
-	Key string `json:"key,omitempty"`
-
-	DSCP        int    `json:"DSCP,omitempty"`        // DSCP
-	Bandwidth   string `json:"bandwidth,omitempty"`   // Allocated bandwidth
-	ProfileName string `json:"profileName,omitempty"` // Network profile name
-	TenantName  string `json:"tenantName,omitempty"`  // Network profile name
 }
 
 type GlobalInspect struct {
@@ -366,12 +352,7 @@ type NetworkOper struct {
 	ExternalPktTag          int            `json:"externalPktTag,omitempty"` // external packet tag
 	NumEndpoints            int            `json:"numEndpoints,omitempty"`   // external packet tag
 	PktTag                  int            `json:"pktTag,omitempty"`         // internal packet tag
-	AllocatedAddressesCount int    `json:"allocatedAddressesCount,omitempty"` // Vlan/Vxlan Tag
-	AllocatedIPAddresses    string `json:"allocatedIPAddresses,omitempty"`    // allocated IP addresses
-	DnsServerIP             string `json:"dnsServerIP,omitempty"`             // dns IP for the network
-	ExternalPktTag          int    `json:"externalPktTag,omitempty"`          // external packet tag
-	NumEndpoints            int    `json:"numEndpoints,omitempty"`            // external packet tag
-	PktTag                  int    `json:"pktTag,omitempty"`                  // internal packet tag
+
 }
 
 type NetworkInspect struct {
@@ -464,6 +445,7 @@ type ServiceLBOper struct {
 
 type ServiceLBInspect struct {
 	Config ServiceLB
+
 	Oper ServiceLBOper
 }
 
@@ -631,23 +613,6 @@ func (c *ContivClient) AppProfileInspect(tenantName string, appProfileName strin
 	return &obj, nil
 }
 
-// AppProfileInspect gets the appProfileInspect object
-func (c *ContivClient) AppProfileInspect(tenantName string, appProfileName string) (*AppProfileInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + appProfileName
-	url := c.baseURL + "/api/v1/inspect/appProfiles/" + keyStr + "/"
-
-	// http get the object
-	var obj AppProfileInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting appProfile %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
 // BgpPost posts the Bgp object
 func (c *ContivClient) BgpPost(obj *Bgp) error {
 	// build key and URL
@@ -711,23 +676,6 @@ func (c *ContivClient) BgpDelete(hostname string) error {
 	}
 
 	return nil
-}
-
-// BgpInspect gets the BgpInspect object
-func (c *ContivClient) BgpInspect(hostname string) (*BgpInspect, error) {
-	// build key and URL
-	keyStr := hostname
-	url := c.baseURL + "/api/v1/inspect/Bgps/" + keyStr + "/"
-
-	// http get the object
-	var obj BgpInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting Bgp %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
 }
 
 // BgpInspect gets the BgpInspect object
@@ -846,23 +794,6 @@ func (c *ContivClient) EndpointGroupInspect(tenantName string, groupName string)
 	return &obj, nil
 }
 
-// EndpointGroupInspect gets the endpointGroupInspect object
-func (c *ContivClient) EndpointGroupInspect(tenantName string, groupName string) (*EndpointGroupInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + groupName
-	url := c.baseURL + "/api/v1/inspect/endpointGroups/" + keyStr + "/"
-
-	// http get the object
-	var obj EndpointGroupInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting endpointGroup %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
 // ExtContractsGroupPost posts the extContractsGroup object
 func (c *ContivClient) ExtContractsGroupPost(obj *ExtContractsGroup) error {
 	// build key and URL
@@ -926,23 +857,6 @@ func (c *ContivClient) ExtContractsGroupDelete(tenantName string, contractsGroup
 	}
 
 	return nil
-}
-
-// ExtContractsGroupInspect gets the extContractsGroupInspect object
-func (c *ContivClient) ExtContractsGroupInspect(tenantName string, contractsGroupName string) (*ExtContractsGroupInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + contractsGroupName
-	url := c.baseURL + "/api/v1/inspect/extContractsGroups/" + keyStr + "/"
-
-	// http get the object
-	var obj ExtContractsGroupInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting extContractsGroup %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
 }
 
 // ExtContractsGroupInspect gets the extContractsGroupInspect object
@@ -1043,7 +957,6 @@ func (c *ContivClient) GlobalInspect(name string) (*GlobalInspect, error) {
 
 	return &obj, nil
 }
-
 
 // NetprofilePost posts the netprofile object
 func (c *ContivClient) NetprofilePost(obj *Netprofile) error {
@@ -1209,23 +1122,6 @@ func (c *ContivClient) NetworkInspect(tenantName string, networkName string) (*N
 	return &obj, nil
 }
 
-// NetworkInspect gets the networkInspect object
-func (c *ContivClient) NetworkInspect(tenantName string, networkName string) (*NetworkInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + networkName
-	url := c.baseURL + "/api/v1/inspect/networks/" + keyStr + "/"
-
-	// http get the object
-	var obj NetworkInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting network %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
 // PolicyPost posts the policy object
 func (c *ContivClient) PolicyPost(obj *Policy) error {
 	// build key and URL
@@ -1289,23 +1185,6 @@ func (c *ContivClient) PolicyDelete(tenantName string, policyName string) error 
 	}
 
 	return nil
-}
-
-// PolicyInspect gets the policyInspect object
-func (c *ContivClient) PolicyInspect(tenantName string, policyName string) (*PolicyInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + policyName
-	url := c.baseURL + "/api/v1/inspect/policys/" + keyStr + "/"
-
-	// http get the object
-	var obj PolicyInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting policy %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
 }
 
 // PolicyInspect gets the policyInspect object
@@ -1407,23 +1286,6 @@ func (c *ContivClient) RuleInspect(tenantName string, policyName string, ruleId 
 	return &obj, nil
 }
 
-// RuleInspect gets the ruleInspect object
-func (c *ContivClient) RuleInspect(tenantName string, policyName string, ruleId string) (*RuleInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + policyName + ":" + ruleId
-	url := c.baseURL + "/api/v1/inspect/rules/" + keyStr + "/"
-
-	// http get the object
-	var obj RuleInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting rule %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
 // ServiceLBPost posts the serviceLB object
 func (c *ContivClient) ServiceLBPost(obj *ServiceLB) error {
 	// build key and URL
@@ -1487,23 +1349,6 @@ func (c *ContivClient) ServiceLBDelete(tenantName string, serviceName string) er
 	}
 
 	return nil
-}
-
-// ServiceLBInspect gets the serviceLBInspect object
-func (c *ContivClient) ServiceLBInspect(tenantName string, serviceName string) (*ServiceLBInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + serviceName
-	url := c.baseURL + "/api/v1/inspect/serviceLBs/" + keyStr + "/"
-
-	// http get the object
-	var obj ServiceLBInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting serviceLB %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
 }
 
 // ServiceLBInspect gets the serviceLBInspect object
@@ -1605,23 +1450,6 @@ func (c *ContivClient) TenantInspect(tenantName string) (*TenantInspect, error) 
 	return &obj, nil
 }
 
-// TenantInspect gets the tenantInspect object
-func (c *ContivClient) TenantInspect(tenantName string) (*TenantInspect, error) {
-	// build key and URL
-	keyStr := tenantName
-	url := c.baseURL + "/api/v1/inspect/tenants/" + keyStr + "/"
-
-	// http get the object
-	var obj TenantInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting tenant %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
 // VolumePost posts the volume object
 func (c *ContivClient) VolumePost(obj *Volume) error {
 	// build key and URL
@@ -1704,23 +1532,6 @@ func (c *ContivClient) VolumeInspect(tenantName string, volumeName string) (*Vol
 	return &obj, nil
 }
 
-// VolumeInspect gets the volumeInspect object
-func (c *ContivClient) VolumeInspect(tenantName string, volumeName string) (*VolumeInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + volumeName
-	url := c.baseURL + "/api/v1/inspect/volumes/" + keyStr + "/"
-
-	// http get the object
-	var obj VolumeInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting volume %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
-}
-
 // VolumeProfilePost posts the volumeProfile object
 func (c *ContivClient) VolumeProfilePost(obj *VolumeProfile) error {
 	// build key and URL
@@ -1784,23 +1595,6 @@ func (c *ContivClient) VolumeProfileDelete(tenantName string, volumeProfileName 
 	}
 
 	return nil
-}
-
-// VolumeProfileInspect gets the volumeProfileInspect object
-func (c *ContivClient) VolumeProfileInspect(tenantName string, volumeProfileName string) (*VolumeProfileInspect, error) {
-	// build key and URL
-	keyStr := tenantName + ":" + volumeProfileName
-	url := c.baseURL + "/api/v1/inspect/volumeProfiles/" + keyStr + "/"
-
-	// http get the object
-	var obj VolumeProfileInspect
-	err := httpGet(url, &obj)
-	if err != nil {
-		log.Debugf("Error getting volumeProfile %+v. Err: %v", keyStr, err)
-		return nil, err
-	}
-
-	return &obj, nil
 }
 
 // VolumeProfileInspect gets the volumeProfileInspect object

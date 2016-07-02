@@ -169,13 +169,6 @@ type Netprofile struct {
 	DSCP        int    `json:"DSCP,omitempty"`        // DSCP
 	Bandwidth   string `json:"bandwidth,omitempty"`   // Allocated bandwidth
 	ProfileName string `json:"profileName,omitempty"` // Network profile name
-	TenantName  string `json:"tenantName,omitempty"`  // Network profile name
-}
-
-type GlobalInspect struct {
-	Config Global
-
-	Oper GlobalOper
 	TenantName  string `json:"tenantName,omitempty"`  // Tenant name
 
 	// add link-sets and links
@@ -233,12 +226,6 @@ type NetworkOper struct {
 	ExternalPktTag          int            `json:"externalPktTag,omitempty"` // external packet tag
 	NumEndpoints            int            `json:"numEndpoints,omitempty"`   // external packet tag
 	PktTag                  int            `json:"pktTag,omitempty"`         // internal packet tag
-	AllocatedAddressesCount int    `json:"allocatedAddressesCount,omitempty"` // Vlan/Vxlan Tag
-	AllocatedIPAddresses    string `json:"allocatedIPAddresses,omitempty"`    // allocated IP addresses
-	DnsServerIP             string `json:"dnsServerIP,omitempty"`             // dns IP for the network
-	ExternalPktTag          int    `json:"externalPktTag,omitempty"`          // external packet tag
-	NumEndpoints            int    `json:"numEndpoints,omitempty"`            // external packet tag
-	PktTag                  int    `json:"pktTag,omitempty"`                  // internal packet tag
 
 }
 
@@ -334,10 +321,6 @@ type ServiceLBInspect struct {
 	Config ServiceLB
 
 	Oper ServiceLBOper
-}
-
-type ServiceLBInspect struct {
-	Config ServiceLB
 }
 
 type Tenant struct {
@@ -688,9 +671,6 @@ func AddRoutes(router *mux.Router) {
 	inspectRoute = "/api/v1/inspect/appProfiles/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectAppProfile))
 
-	inspectRoute = "/api/v1/inspect/appProfiles/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectAppProfile))
-
 	// Register Bgp
 	route = "/api/v1/Bgps/{key}/"
 	listRoute = "/api/v1/Bgps/"
@@ -700,9 +680,6 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("POST").HandlerFunc(makeHttpHandler(httpCreateBgp))
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateBgp))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteBgp))
-
-	inspectRoute = "/api/v1/inspect/Bgps/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectBgp))
 
 	inspectRoute = "/api/v1/inspect/Bgps/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectBgp))
@@ -723,9 +700,6 @@ func AddRoutes(router *mux.Router) {
 	inspectRoute = "/api/v1/inspect/endpointGroups/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectEndpointGroup))
 
-	inspectRoute = "/api/v1/inspect/endpointGroups/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectEndpointGroup))
-
 	// Register extContractsGroup
 	route = "/api/v1/extContractsGroups/{key}/"
 	listRoute = "/api/v1/extContractsGroups/"
@@ -735,9 +709,6 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("POST").HandlerFunc(makeHttpHandler(httpCreateExtContractsGroup))
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateExtContractsGroup))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteExtContractsGroup))
-
-	inspectRoute = "/api/v1/inspect/extContractsGroups/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectExtContractsGroup))
 
 	inspectRoute = "/api/v1/inspect/extContractsGroups/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectExtContractsGroup))
@@ -754,7 +725,6 @@ func AddRoutes(router *mux.Router) {
 
 	inspectRoute = "/api/v1/inspect/globals/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectGlobal))
-
 
 	// Register netprofile
 	route = "/api/v1/netprofiles/{key}/"
@@ -782,9 +752,6 @@ func AddRoutes(router *mux.Router) {
 	inspectRoute = "/api/v1/inspect/networks/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectNetwork))
 
-	inspectRoute = "/api/v1/inspect/networks/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectNetwork))
-
 	// Register policy
 	route = "/api/v1/policys/{key}/"
 	listRoute = "/api/v1/policys/"
@@ -794,9 +761,6 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("POST").HandlerFunc(makeHttpHandler(httpCreatePolicy))
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreatePolicy))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeletePolicy))
-
-	inspectRoute = "/api/v1/inspect/policys/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectPolicy))
 
 	inspectRoute = "/api/v1/inspect/policys/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectPolicy))
@@ -814,9 +778,6 @@ func AddRoutes(router *mux.Router) {
 	inspectRoute = "/api/v1/inspect/rules/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectRule))
 
-	inspectRoute = "/api/v1/inspect/rules/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectRule))
-
 	// Register serviceLB
 	route = "/api/v1/serviceLBs/{key}/"
 	listRoute = "/api/v1/serviceLBs/"
@@ -826,9 +787,6 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("POST").HandlerFunc(makeHttpHandler(httpCreateServiceLB))
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateServiceLB))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteServiceLB))
-
-	inspectRoute = "/api/v1/inspect/serviceLBs/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectServiceLB))
 
 	inspectRoute = "/api/v1/inspect/serviceLBs/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectServiceLB))
@@ -846,9 +804,6 @@ func AddRoutes(router *mux.Router) {
 	inspectRoute = "/api/v1/inspect/tenants/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectTenant))
 
-	inspectRoute = "/api/v1/inspect/tenants/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectTenant))
-
 	// Register volume
 	route = "/api/v1/volumes/{key}/"
 	listRoute = "/api/v1/volumes/"
@@ -858,9 +813,6 @@ func AddRoutes(router *mux.Router) {
 	router.Path(route).Methods("POST").HandlerFunc(makeHttpHandler(httpCreateVolume))
 	router.Path(route).Methods("PUT").HandlerFunc(makeHttpHandler(httpCreateVolume))
 	router.Path(route).Methods("DELETE").HandlerFunc(makeHttpHandler(httpDeleteVolume))
-
-	inspectRoute = "/api/v1/inspect/volumes/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectVolume))
 
 	inspectRoute = "/api/v1/inspect/volumes/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectVolume))
@@ -878,27 +830,6 @@ func AddRoutes(router *mux.Router) {
 	inspectRoute = "/api/v1/inspect/volumeProfiles/{key}/"
 	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectVolumeProfile))
 
-	inspectRoute = "/api/v1/inspect/volumeProfiles/{key}/"
-	router.Path(inspectRoute).Methods("GET").HandlerFunc(makeHttpHandler(httpInspectVolumeProfile))
-
-}
-
-// GET Oper REST call
-func httpInspectAppProfile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
-	var obj AppProfileInspect
-	log.Debugf("Received httpInspectAppProfile: %+v", vars)
-
-	key := vars["key"]
-
-	objConfig := collections.appProfiles[key]
-	if objConfig == nil {
-		log.Errorf("appProfile %s not found", key)
-		return nil, errors.New("appProfile not found")
-	}
-	obj.Config = *objConfig
-
-	// Return the obj
-	return &obj, nil
 }
 
 // GET Oper REST call
@@ -2135,76 +2066,6 @@ func httpGetGlobal(w http.ResponseWriter, r *http.Request, vars map[string]strin
 	return obj, nil
 }
 
-// GET Oper REST call
-func httpInspectGlobal(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
-	var obj GlobalInspect
-	log.Debugf("Received httpInspectGlobal: %+v", vars)
-
-	key := vars["key"]
-
-	objConfig := collections.globals[key]
-	if objConfig == nil {
-		log.Errorf("global %s not found", key)
-		return nil, errors.New("global not found")
-	}
-	obj.Config = *objConfig
-
-	if err := GetOperGlobal(&obj); err != nil {
-		log.Errorf("GetGlobal error for: %+v. Err: %v", obj, err)
-		return nil, err
-	}
-
-	// Return the obj
-	return &obj, nil
-}
-
-// Get a globalOper object
-func GetOperGlobal(obj *GlobalInspect) error {
-	// Check if we handle this object
-	if objCallbackHandler.GlobalCb == nil {
-		log.Errorf("No callback registered for global object")
-		return errors.New("Invalid object type")
-	}
-
-	// Perform callback
-	err := objCallbackHandler.GlobalCb.GlobalGetOper(obj)
-	if err != nil {
-		log.Errorf("GlobalDelete retruned error for: %+v. Err: %v", obj, err)
-		return err
-	}
-
-	return nil
-}
-
-// LIST REST call
-func httpListGlobals(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
-	log.Debugf("Received httpListGlobals: %+v", vars)
-
-	list := make([]*Global, 0)
-	for _, obj := range collections.globals {
-		list = append(list, obj)
-	}
-
-	// Return the list
-	return list, nil
-}
-
-// GET REST call
-func httpGetGlobal(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
-	log.Debugf("Received httpGetGlobal: %+v", vars)
-
-	key := vars["key"]
-
-	obj := collections.globals[key]
-	if obj == nil {
-		log.Errorf("global %s not found", key)
-		return nil, errors.New("global not found")
-	}
-
-	// Return the obj
-	return obj, nil
-}
-
 // CREATE REST call
 func httpCreateGlobal(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	log.Debugf("Received httpGetGlobal: %+v", vars)
@@ -2444,24 +2305,6 @@ func ValidateGlobal(obj *Global) error {
 }
 
 // GET Oper REST call
-func httpInspectNetwork(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
-	var obj NetworkInspect
-	log.Debugf("Received httpInspectNetwork: %+v", vars)
-
-	key := vars["key"]
-
-	objConfig := collections.networks[key]
-	if objConfig == nil {
-		log.Errorf("network %s not found", key)
-		return nil, errors.New("network not found")
-	}
-	obj.Config = *objConfig
-
-	if err := GetOperNetwork(&obj); err != nil {
-		log.Errorf("GetNetwork error for: %+v. Err: %v", obj, err)
-		return nil, err
-	}
-
 func httpInspectNetprofile(w http.ResponseWriter, r *http.Request, vars map[string]string) (interface{}, error) {
 	var obj NetprofileInspect
 	log.Debugf("Received httpInspectNetprofile: %+v", vars)
@@ -2477,24 +2320,6 @@ func httpInspectNetprofile(w http.ResponseWriter, r *http.Request, vars map[stri
 
 	// Return the obj
 	return &obj, nil
-}
-
-// Get a networkOper object
-func GetOperNetwork(obj *NetworkInspect) error {
-	// Check if we handle this object
-	if objCallbackHandler.NetworkCb == nil {
-		log.Errorf("No callback registered for network object")
-		return errors.New("Invalid object type")
-	}
-
-	// Perform callback
-	err := objCallbackHandler.NetworkCb.NetworkGetOper(obj)
-	if err != nil {
-		log.Errorf("NetworkDelete retruned error for: %+v. Err: %v", obj, err)
-		return err
-	}
-
-	return nil
 }
 
 // LIST REST call
