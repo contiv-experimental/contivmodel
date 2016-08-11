@@ -366,8 +366,17 @@ type TenantLinkSets struct {
 	Volumes        map[string]modeldb.Link `json:"Volumes,omitempty"`
 }
 
+type TenantOper struct {
+	Endpoints    []EndpointOper `json:"endpoints,omitempty"`
+	NumEndpoints int            `json:"numEndpoints,omitempty"` // number of endpoints in the tenant
+	NumNet       int            `json:"numNet,omitempty"`       // number of networks
+
+}
+
 type TenantInspect struct {
 	Config Tenant
+
+	Oper TenantOper
 }
 
 type Volume struct {
@@ -519,6 +528,8 @@ type ServiceLBCallbacks interface {
 }
 
 type TenantCallbacks interface {
+	TenantGetOper(tenant *TenantInspect) error
+
 	TenantCreate(tenant *Tenant) error
 	TenantUpdate(tenant, params *Tenant) error
 	TenantDelete(tenant *Tenant) error
@@ -3968,8 +3979,31 @@ func httpInspectTenant(w http.ResponseWriter, r *http.Request, vars map[string]s
 	}
 	obj.Config = *objConfig
 
+	if err := GetOperTenant(&obj); err != nil {
+		log.Errorf("GetTenant error for: %+v. Err: %v", obj, err)
+		return nil, err
+	}
+
 	// Return the obj
 	return &obj, nil
+}
+
+// Get a tenantOper object
+func GetOperTenant(obj *TenantInspect) error {
+	// Check if we handle this object
+	if objCallbackHandler.TenantCb == nil {
+		log.Errorf("No callback registered for tenant object")
+		return errors.New("Invalid object type")
+	}
+
+	// Perform callback
+	err := objCallbackHandler.TenantCb.TenantGetOper(obj)
+	if err != nil {
+		log.Errorf("TenantDelete retruned error for: %+v. Err: %v", obj, err)
+		return err
+	}
+
+	return nil
 }
 
 // LIST REST call
