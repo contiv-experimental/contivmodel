@@ -236,6 +236,7 @@ type EndpointGroup struct {
 type EndpointGroupLinkSets struct {
 	ExtContractsGrps map[string]Link `json:"ExtContractsGrps,omitempty"`
 	Policies         map[string]Link `json:"Policies,omitempty"`
+	Rules            map[string]Link `json:"Rules,omitempty"`
 	Services         map[string]Link `json:"Services,omitempty"`
 }
 
