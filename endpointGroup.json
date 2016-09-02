@@ -75,7 +75,7 @@
 				"policies": {
 					"ref": "policy"
 				},
-				"rules": {
+				"matchRules": {
 					"ref": "rule"
 				},
 				"extContractsGrps": {
