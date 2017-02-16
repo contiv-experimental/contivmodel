@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-docker build -t contiv/spec:latest .
-cid=$(docker run -itd contiv/spec:latest)
+docker build -t contiv/spec .
+cid=$(docker run -itd contiv/spec)
 docker cp ${cid}:/contiv/contiv.html .
 docker rm -f -v ${cid}
